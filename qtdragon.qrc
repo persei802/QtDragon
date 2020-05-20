@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="/home/jim/linuxcnc/configs/qtdragon/">
+    <file>images/x_minus_jog_button.png</file>
+    <file>images/y_minus_jog_button.png</file>
+    <file>images/z_minus_jog_button.png</file>
+    <file>images/a_minus_jog_button.png</file>
+    <file>images/x_plus_jog_button.png</file>
+    <file>images/y_plus_jog_button.png</file>
+    <file>images/z_plus_jog_button.png</file>
+    <file>images/a_plus_jog_button.png</file>
+  </qresource>
+</RCC>

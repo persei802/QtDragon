@@ -1,0 +1,91 @@
+[DIALOG_OPTIONS]
+LcncDialog-geometry = 0 0 640 480
+EntryDialog-geometry = 992 282 206 102
+toolDialog_play_sound = False
+toolDialog_sound_type = RING
+ToolChangeDialog-geometry = 400 200 296 98
+toolDialog_speak = False
+FileDialog-geometry = 0 0 633 408
+fileDialog_play_sound = False
+fileDialog_sound_type = RING
+OriginOffsetDialog-geometry = 0 0 640 480
+MachineLogDialog-geometry = 0 0 640 480
+MachineLogDialog_play_sound = False
+MachineLogDialog_sound_type = RING
+EntryDialog_play_sound = False
+EntryDialog_sound_type = READY
+
+[BOOK_KEEPING]
+last_loaded_directory = /home/jim/linuxcnc/nc_files
+last_loaded_file = /home/jim/linuxcnc/nc_files/Dragon.ngc
+RecentPath_0 = /home/jim/linuxcnc/nc_files/Touch_Probe/Top_cap_drill_T10.ngc
+
+[SCREEN_OPTIONS]
+catch_errors = True
+desktop_notify = True
+shutdown_check = True
+sound_player_on = False
+mainwindow_geometry = 196 106 1440 860
+
+[MCH_MSG_OPTIONS]
+mchnMsg_play_sound = False
+mchnMsg_speak_errors = False
+mchnMsg_sound_type = ERROR
+
+[USR_MSG_OPTIONS]
+usermsg_play_sound = False
+userMsg_sound_type = RING
+userMsg_use_focusOverlay = True
+
+[SHUTDOWN_OPTIONS]
+shutdown_play_sound = False
+shutdown_alert_sound_type = ATTENTION
+shutdown_exit_sound_type = LOGOUT
+shutdown_msg_title = Do you want to Shutdown now?
+shutdown_msg_detail = This option can be changed in the preference file
+
+[NOTIFY_OPTIONS]
+notify_start_greeting = False
+notify_start_title = Welcome
+notify_start_detail = This option can be changed in the preference file
+notify_start_timeout = 5
+
+[CUSTOM_FORM_ENTRIES]
+Tool to load = 13
+Reload program = True
+Reload tool = True
+Use tool sensor = True
+Use keyboard = True
+Run from line = False
+External offsets = True
+Eoffset count = 44
+Laser X = 106.9
+Laser Y = -16.85
+Sensor X = 15.5
+Sensor Y = 16.6
+Work Height = 19.2
+Touch Height = 29.75
+Search Velocity = 200.0
+Probe Velocity = 100.0
+Max Probe = 40.0
+Sensor Height = 39.4
+Use virtual keyboard = True
+
+[PROBE OPTIONS]
+Probe tool = 90
+Probe rapid = 110.0
+Probe max xy = 11.0
+Probe max z = 2.0
+Probe extra depth = 0.0
+Probe step off = 10.0
+Probe feed = 50.0
+Probe xy clearance = 10.0
+Probe z clearance = 10.0
+Probe edge width = 10.0
+
+[DIALOG_GEOMETRY]
+ToolChangeDialog-geometry = 0 0 296 98
+LncMessage-geometry = 0 0 640 480
+FileDialog-geometry = 64 625 633 408
+axisToolButtonDialog_ENTRY = 435 230 206 100
+
