@@ -2450,7 +2450,7 @@ RESET</string>
                     <enum>QFrame::Raised</enum>
                    </property>
                    <property name="currentIndex">
-                    <number>0</number>
+                    <number>8</number>
                    </property>
                    <widget class="QWidget" name="main_tab_widgetPage1">
                     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -11520,11 +11520,7 @@ ALL</string>
               <number>0</number>
              </property>
              <item>
-              <layout class="QVBoxLayout" name="layout_vkb">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-              </layout>
+              <widget class="VirtualKeyboard" name="virtualkeyboard"/>
              </item>
             </layout>
            </widget>
@@ -13034,7 +13030,7 @@ ALL</string>
                   <number>2</number>
                  </property>
                  <property name="text">
-                  <string>03:13:34 PM</string>
+                  <string>10:01:17 PM</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -13290,6 +13286,11 @@ ALL</string>
    <extends>QLabel</extends>
    <header>qtvcp.widgets.dro_widget</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VirtualKeyboard</class>
+   <extends>QWidget</extends>
+   <header>qtvcp.widgets.virtualkeyboard</header>
   </customwidget>
   <customwidget>
    <class>FileManager</class>
@@ -13665,8 +13666,8 @@ ALL</string>
    <slot>btn_goto_sensor_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>74</x>
-     <y>447</y>
+     <x>80</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -13681,8 +13682,8 @@ ALL</string>
    <slot>btn_ref_laser_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>299</x>
-     <y>447</y>
+     <x>85</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
      <x>238</x>
@@ -13697,28 +13698,12 @@ ALL</string>
    <slot>btn_touchoff_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>397</x>
-     <y>447</y>
+     <x>85</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
      <x>322</x>
      <y>-19</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chk_use_virtual</sender>
-   <signal>stateChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>chk_use_virtual_changed()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>528</x>
-     <y>86</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>500</x>
-     <y>-14</y>
     </hint>
    </hints>
   </connection>
@@ -13761,8 +13746,8 @@ ALL</string>
    <slot>btn_dimensions_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>458</x>
-     <y>305</y>
+     <x>482</x>
+     <y>96</y>
     </hint>
     <hint type="destinationlabel">
      <x>454</x>
@@ -13777,8 +13762,8 @@ ALL</string>
    <slot>chk_run_from_line_checked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>528</x>
-     <y>86</y>
+     <x>678</x>
+     <y>454</y>
     </hint>
     <hint type="destinationlabel">
      <x>554</x>
@@ -13793,8 +13778,8 @@ ALL</string>
    <slot>chk_override_limits_checked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>528</x>
-     <y>86</y>
+     <x>678</x>
+     <y>502</y>
     </hint>
     <hint type="destinationlabel">
      <x>719</x>
@@ -13815,6 +13800,22 @@ ALL</string>
     <hint type="destinationlabel">
      <x>356</x>
      <y>-36</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chk_use_virtual</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>chk_use_virtual_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>551</x>
+     <y>470</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>565</x>
+     <y>-15</y>
     </hint>
    </hints>
   </connection>
@@ -13880,7 +13881,7 @@ ALL</string>
   <slot>btn_maxv_50_clicked()</slot>
  </slots>
  <buttongroups>
-  <buttongroup name="mode_buttonGroup"/>
   <buttongroup name="page_buttonGroup"/>
+  <buttongroup name="mode_buttonGroup"/>
  </buttongroups>
 </ui>

@@ -1,6 +1,5 @@
 import os
 import hal, hal_glib
-from keyboard import VirtualKeyboard
 from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtWebKitWidgets import QWebView
 from qtvcp.widgets.gcode_editor import GcodeEditor as GCODE
@@ -101,8 +100,6 @@ class HandlerClass:
     # set validators for lineEdit widgets
         for val in self.lineedit_list:
             self.w['lineEdit_' + val].setValidator(self.valid)
-    # create and install virtual keyboard
-        VKB = VirtualKeyboard(self.w)
 
     #############################
     # SPECIAL FUNCTIONS SECTION #
@@ -212,10 +209,8 @@ class HandlerClass:
         self.web_view = QWebView()
         self.w.verticalLayout_setup.addWidget(self.web_view)
         # check for virtual keyboard enabled
-        if self.w.chk_use_virtual.isChecked():
-            self.w.btn_keyboard.show()
-        else:
-            self.w.btn_keyboard.hide()
+        if not self.w.chk_use_virtual.isChecked():
+            self.btn_keyboard.hide()
 
     def processed_focus_event__(self, receiver, event):
         if not self.w.chk_use_virtual.isChecked() or STATUS.is_auto_mode(): return
