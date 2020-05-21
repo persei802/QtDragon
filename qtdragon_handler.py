@@ -210,7 +210,7 @@ class HandlerClass:
         self.w.verticalLayout_setup.addWidget(self.web_view)
         # check for virtual keyboard enabled
         if not self.w.chk_use_virtual.isChecked():
-            self.btn_keyboard.hide()
+            self.w.btn_keyboard.hide()
 
     def processed_focus_event__(self, receiver, event):
         if not self.w.chk_use_virtual.isChecked() or STATUS.is_auto_mode(): return
