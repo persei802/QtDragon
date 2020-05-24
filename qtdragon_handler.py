@@ -43,6 +43,9 @@ class HandlerClass:
         KEYBIND.add_call('Key_Pause', 'on_keycall_pause')
                 
         # some global variables
+        self.run_time = 0
+        self.time_tenths = 0
+        self.timerOn = False
         self.home_all = False
         self.max_linear_velocity = INFO.MAX_LINEAR_VELOCITY * 60
         self.system_list = ["G54","G55","G56","G57","G58","G59","G59.1","G59.2","G59.3"]
@@ -74,6 +77,9 @@ class HandlerClass:
         STATUS.connect('homed', self.homed)
         STATUS.connect('all-homed', self.all_homed)
         STATUS.connect('not-all-homed', self.not_all_homed)
+        STATUS.connect('periodic', lambda w: self.update_runtimer())
+        STATUS.connect('command-running', lambda w: self.start_timer())
+        STATUS.connect('command-stopped', lambda w: self.stop_timer())
 
     def class_patch__(self):
         self.old_fman = FM.load
@@ -120,11 +126,6 @@ class HandlerClass:
         self.h.newpin("eoffset_count", hal.HAL_S32, hal.HAL_OUT)
         pin = self.h.newpin("eoffset_value", hal.HAL_FLOAT, hal.HAL_IN)
         hal_glib.GPin(pin).connect("value_changed", self.eoffset_changed)
-        # program runtime pins from timer
-        pin = self.h.newpin("runtime_sec", hal.HAL_U32, hal.HAL_IN)
-        hal_glib.GPin(pin).connect("value_changed", self.runtime_sec_changed)
-        self.h.newpin("runtime_min", hal.HAL_U32, hal.HAL_IN)
-        self.h.newpin("runtime_hrs", hal.HAL_U32, hal.HAL_IN)
 
     def init_preferences(self):
         if not self.w.PREFS_:
@@ -312,10 +313,6 @@ class HandlerClass:
         eoffset = "{:2.3f}".format(self.h['eoffset_value'])
         self.w.lbl_eoffset_value.setText(eoffset)
 
-    def runtime_sec_changed(self, data):
-        text = "{:02d}:{:02d}:{:02d}".format(self.h['runtime_hrs'], self.h['runtime_min'], self.h['runtime_sec'])
-        self.w.lbl_runtime.setText(text)
-
     def dialog_return(self, w, message):
         rtn = message.get('RETURN')
         name = message.get('NAME')
@@ -428,6 +425,7 @@ class HandlerClass:
             return
         start_line = int(self.w.lbl_start_line.text().encode('utf-8'))
         self.add_status("Started program from line {}".format(start_line))
+        self.run_time = 0
         ACTION.RUN(start_line)
 
     def btn_reload_file_clicked(self):
@@ -736,6 +734,23 @@ class HandlerClass:
         else:
             self.add_status('Keyboard shortcuts are disabled')
             return False
+
+    def update_runtimer(self):
+        if self.timerOn is False or STATUS.is_auto_paused(): return
+        self.time_tenths += 1
+        if self.time_tenths == 10:
+            self.time_tenths = 0
+            self.run_time += 1
+            hours, remainder = divmod(self.run_time, 3600)
+            minutes, seconds = divmod(remainder, 60)
+            self.w.lbl_runtime.setText("{:02d}:{:02d}:{:02d}".format(hours, minutes, seconds))
+
+    def start_timer(self):
+        self.run_time = 0
+        self.timerOn = True
+
+    def stop_timer(self):
+        self.timerOn = False
 
     #####################
     # KEY BINDING CALLS #
