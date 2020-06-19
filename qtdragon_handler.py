@@ -1,7 +1,6 @@
 import os
 import hal, hal_glib
 from PyQt5 import QtCore, QtWidgets, QtGui
-from PyQt5.QtWebKitWidgets import QWebView
 from qtvcp.widgets.gcode_editor import GcodeEditor as GCODE
 from qtvcp.widgets.mdi_line import MDILine as MDI_WIDGET
 from qtvcp.widgets.tool_offsetview import ToolOffsetView as TOOL_TABLE
@@ -45,7 +44,7 @@ class HandlerClass:
         # some global variables
         self.run_time = 0
         self.time_tenths = 0
-        self.timerOn = False
+        self.timer_on = False
         self.home_all = False
         self.max_linear_velocity = INFO.MAX_LINEAR_VELOCITY * 60
         self.system_list = ["G54","G55","G56","G57","G58","G59","G59.1","G59.2","G59.3"]
@@ -70,15 +69,13 @@ class HandlerClass:
         STATUS.connect('mode-auto', lambda w: self.enable_auto(False))
         STATUS.connect('gcode-line-selected', lambda w, line: self.set_start_line(line))
         STATUS.connect('hard-limits-tripped', self.hard_limit_tripped)
-        STATUS.connect('interp-idle', lambda w: self.set_start_line(1))
-        STATUS.connect('program-pause-changed', lambda w, state: self.w.spindle_pause.setEnabled(state))
+        STATUS.connect('program-pause-changed', lambda w, state: self.w.btn_spindle_pause.setEnabled(state))
         STATUS.connect('user-system-changed', self.user_system_changed)
         STATUS.connect('file-loaded', self.file_loaded)
         STATUS.connect('homed', self.homed)
         STATUS.connect('all-homed', self.all_homed)
         STATUS.connect('not-all-homed', self.not_all_homed)
         STATUS.connect('periodic', lambda w: self.update_runtimer())
-        STATUS.connect('command-running', lambda w: self.start_timer())
         STATUS.connect('command-stopped', lambda w: self.stop_timer())
 
     def class_patch__(self):
@@ -92,12 +89,12 @@ class HandlerClass:
         self.w.stackedWidget_log.setCurrentIndex(0)
         self.w.stackedWidget.setCurrentIndex(0)
         self.w.stackedWidget_dro.setCurrentIndex(0)
-        self.w.spindle_pause.setEnabled(False)
+        self.w.btn_spindle_pause.setEnabled(False)
         self.w.btn_dimensions.setChecked(True)
         self.w.page_buttonGroup.buttonClicked.connect(self.main_tab_changed)
         self.w.filemanager.onUserClicked()    
         self.w.filemanager_usb.onMediaClicked()
-
+        self.chk_run_from_line_checked(self.w.chk_run_from_line.isChecked())
     # hide widgets for A axis if not present
         if "A" not in INFO.AVAILABLE_AXES:
             for i in self.axis_a_list:
@@ -106,6 +103,10 @@ class HandlerClass:
     # set validators for lineEdit widgets
         for val in self.lineedit_list:
             self.w['lineEdit_' + val].setValidator(self.valid)
+    # check for default setup html file
+        fname = os.path.join(os.path.expanduser('~'), 'linuxcnc/configs/qtdragon/default_setup.html')
+        if os.path.exists(fname):
+            self.w.setup_webView.load(QtCore.QUrl.fromLocalFile(fname))
 
     #############################
     # SPECIAL FUNCTIONS SECTION #
@@ -120,6 +121,7 @@ class HandlerClass:
         hal_glib.GPin(pin).connect("value_changed", self.spindle_fault_changed)
         pin = self.h.newpin("modbus-errors", hal.HAL_U32, hal.HAL_IN)
         hal_glib.GPin(pin).connect("value_changed", self.mb_errors_changed)
+        self.h.newpin("spindle_pause", hal.HAL_BIT, hal.HAL_OUT)
         # external offset control pins
         self.h.newpin("eoffset_enable", hal.HAL_BIT, hal.HAL_OUT)
         self.h.newpin("eoffset_clear", hal.HAL_BIT, hal.HAL_OUT)
@@ -150,6 +152,7 @@ class HandlerClass:
         self.w.chk_use_keyboard.setChecked(self.w.PREFS_.getpref('Use keyboard', False, bool, 'CUSTOM_FORM_ENTRIES'))
         self.w.chk_run_from_line.setChecked(self.w.PREFS_.getpref('Run from line', False, bool, 'CUSTOM_FORM_ENTRIES'))
         self.w.chk_use_virtual.setChecked(self.w.PREFS_.getpref('Use virtual keyboard', False, bool, 'CUSTOM_FORM_ENTRIES'))
+        self.w.chk_alpha_mode.setChecked(self.w.PREFS_.getpref('Use alpha display mode', False, bool, 'CUSTOM_FORM_ENTRIES'))
         
     def closing_cleanup__(self):
         if not self.w.PREFS_: return
@@ -173,6 +176,7 @@ class HandlerClass:
         self.w.PREFS_.putpref('Use keyboard', self.w.chk_use_keyboard.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
         self.w.PREFS_.putpref('Run from line', self.w.chk_run_from_line.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
         self.w.PREFS_.putpref('Use virtual keyboard', self.w.chk_use_virtual.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
+        self.w.PREFS_.putpref('Use alpha display mode', self.w.chk_alpha_mode.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
 
     def init_widgets(self):
         self.w.main_tab_widget.setCurrentIndex(0)
@@ -206,9 +210,6 @@ class HandlerClass:
         # clickable frames
         self.w.frame_cycle_start.mousePressEvent = self.btn_start_clicked
         self.w.frame_home_all.mousePressEvent = self.btn_home_all_clicked
-        # web view widget for SETUP page
-        self.web_view = QWebView()
-        self.w.verticalLayout_setup.addWidget(self.web_view)
         # check for virtual keyboard enabled
         if not self.w.chk_use_virtual.isChecked():
             self.w.btn_keyboard.hide()
@@ -334,8 +335,9 @@ class HandlerClass:
     def file_loaded(self, obj, filename):
         if filename is not None:
             self.add_status("Loaded file {}".format(filename))
-            self.w.progressBar.setValue(0)
+            self.w.progressBar.reset()
             self.last_loaded_program = filename
+            self.w.lbl_start_line.setText('1')
         else:
             self.add_status("Filename not valid")
 
@@ -423,14 +425,25 @@ class HandlerClass:
         if not STATUS.is_auto_mode():
             self.add_status("Must be in AUTO mode to run a program")
             return
-        start_line = int(self.w.lbl_start_line.text().encode('utf-8'))
-        self.add_status("Started program from line {}".format(start_line))
+        if STATUS.is_auto_running():
+            self.add_status("Program is already running")
+            return
         self.run_time = 0
-        ACTION.RUN(start_line)
+        self.w.lbl_runtime.setText("00:00:00")
+        start_line = int(self.w.lbl_start_line.text().encode('utf-8'))
+        if start_line <= 1:
+            ACTION.RUN(start_line)
+        else:
+            # instantiate run from line preset dialog
+            info = '<b>Running From Line: {} <\b>'.format(start_line)
+            mess = {'NAME':'RUNFROMLINE', 'TITLE':'Preset Dialog', 'ID':'_RUNFROMLINE', 'MESSAGE':info, 'LINE':start_line}
+            ACTION.CALL_DIALOG(mess)
+        self.add_status("Started program from line {}".format(start_line))
+        self.timer_on = True
 
     def btn_reload_file_clicked(self):
         if self.last_loaded_program:
-            self.w.progressBar.setValue(0)
+            self.w.progressBar.reset()
             self.add_status("Loaded program file {}".format(self.last_loaded_program))
             ACTION.OPEN_PROGRAM(self.last_loaded_program)
 
@@ -458,9 +471,11 @@ class HandlerClass:
             self.h['eoffset_enable'] = self.w.chk_eoffsets.isChecked()
             fval = float(self.w.lineEdit_eoffset_count.text())
             self.h['eoffset_count'] = int(fval)
+            self.h['spindle_pause'] = True
         else:
             self.h['eoffset_count'] = 0
             self.h['eoffset_clear'] = True
+            self.h['spindle_pause'] = False
         # instantiate warning box
             info = "Wait for spindle at speed signal before resuming"
             mess = {'NAME':'MESSAGE', 'ICON':'WARNING', 'ID':'_wait_resume_', 'MESSAGE':'CAUTION', 'MORE':info, 'TYPE':'OK'}
@@ -600,6 +615,7 @@ class HandlerClass:
         self.w.gcodegraphics.show_extents_option = state
         self.w.gcodegraphics.clear_live_plotter()
         
+    # settings tab
     def chk_override_limits_checked(self, state):
         if state:
             print("Override limits set")
@@ -608,10 +624,11 @@ class HandlerClass:
             print("Override limits not set")
 
     def chk_run_from_line_checked(self, state):
-        if not state:
-            self.w.lbl_start_line.setText('1')
+        self.w.gcodegraphics.set_inhibit_selection(not state)
 
-    # settings tab
+    def chk_alpha_mode_clicked(self, state):
+        self.w.gcodegraphics.set_alpha_mode(state)
+
     def chk_use_virtual_changed(self, state):
         if state:
             self.w.btn_keyboard.show()
@@ -630,7 +647,7 @@ class HandlerClass:
             self.add_status("Loaded program file : {}".format(fname))
             self.w.main_tab_widget.setCurrentIndex(TAB_MAIN)
         elif fname.endswith(".html"):
-            self.web_view.load(QtCore.QUrl.fromLocalFile(fname))
+            self.w.setup_webView.load(QtCore.QUrl.fromLocalFile(fname))
             self.add_status("Loaded HTML file : {}".format(fname))
             self.w.main_tab_widget.setCurrentIndex(TAB_SETUP)
             self.w.btn_setup.setChecked(True)
@@ -639,8 +656,8 @@ class HandlerClass:
 
     def disable_spindle_pause(self):
         self.h['eoffset_count'] = 0
-        if self.w.spindle_pause.isChecked():
-            self.w.spindle_pause.setChecked(False)
+        if self.w.btn_spindle_pause.isChecked():
+            self.w.btn_spindle_pause.setChecked(False)
 
     def touchoff(self, selector):
         if selector == 'touchplate':
@@ -716,7 +733,7 @@ class HandlerClass:
             self.add_status("Machine ON")
         else:
             self.add_status("Machine OFF")
-        self.w.spindle_pause.setChecked(False)
+        self.w.btn_spindle_pause.setChecked(False)
         self.h['eoffset_count'] = 0
         for widget in self.onoff_list:
             self.w[widget].setEnabled(state)
@@ -726,7 +743,6 @@ class HandlerClass:
             self.w.lbl_start_line.setText(str(line))
         else:
             self.w.lbl_start_line.setText('1')
-            self.add_status('Run from line is disabled')
 
     def use_keyboard(self):
         if self.w.chk_use_keyboard.isChecked():
@@ -736,7 +752,7 @@ class HandlerClass:
             return False
 
     def update_runtimer(self):
-        if self.timerOn is False or STATUS.is_auto_paused(): return
+        if self.timer_on is False or STATUS.is_auto_paused(): return
         self.time_tenths += 1
         if self.time_tenths == 10:
             self.time_tenths = 0
@@ -745,12 +761,8 @@ class HandlerClass:
             minutes, seconds = divmod(remainder, 60)
             self.w.lbl_runtime.setText("{:02d}:{:02d}:{:02d}".format(hours, minutes, seconds))
 
-    def start_timer(self):
-        self.run_time = 0
-        self.timerOn = True
-
     def stop_timer(self):
-        self.timerOn = False
+        self.timer_on = False
 
     #####################
     # KEY BINDING CALLS #

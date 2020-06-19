@@ -132,6 +132,9 @@
       <property name="machineLogDialog_option" stdset="0">
        <bool>true</bool>
       </property>
+      <property name="runFromLineDialog_option" stdset="0">
+       <bool>true</bool>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout_43">
        <property name="spacing">
         <number>2</number>
@@ -4065,11 +4068,13 @@ TO FILE</string>
                       <number>0</number>
                      </property>
                      <item>
-                      <layout class="QVBoxLayout" name="verticalLayout_setup">
-                       <property name="spacing">
-                        <number>4</number>
+                      <widget class="QWebView" name="setup_webView">
+                       <property name="url">
+                        <url>
+                         <string>about:blank</string>
+                        </url>
                        </property>
-                      </layout>
+                      </widget>
                      </item>
                     </layout>
                    </widget>
@@ -4199,6 +4204,22 @@ TO FILE</string>
                            </size>
                           </property>
                          </spacer>
+                        </item>
+                        <item>
+                         <widget class="QCheckBox" name="chk_alpha_mode">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="toolTip">
+                           <string>Make complicated 3D files more visible</string>
+                          </property>
+                          <property name="text">
+                           <string>ENABLE ALPHA MODE</string>
+                          </property>
+                         </widget>
                         </item>
                         <item>
                          <widget class="QCheckBox" name="chk_eoffsets">
@@ -6795,6 +6816,15 @@ START</string>
                    <property name="text">
                     <string>STOP</string>
                    </property>
+                   <property name="python_command_option" stdset="0">
+                    <bool>true</bool>
+                   </property>
+                   <property name="true_python_cmd_string" stdset="0">
+                    <string>INSTANCE.progressBar.setFormat('STOPPED')</string>
+                   </property>
+                   <property name="false_python_cmd_string" stdset="0">
+                    <string/>
+                   </property>
                    <property name="abort_action" stdset="0">
                     <bool>true</bool>
                    </property>
@@ -8349,7 +8379,7 @@ OFF</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="PushButton" name="spindle_pause">
+                   <widget class="PushButton" name="btn_spindle_pause">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -13030,7 +13060,7 @@ ALL</string>
                   <number>2</number>
                  </property>
                  <property name="text">
-                  <string>10:01:17 PM</string>
+                  <string>08:55:14 AM</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -13318,6 +13348,11 @@ ALL</string>
    <extends>QPushButton</extends>
    <header>qtvcp.widgets.action_button</header>
   </customwidget>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKitWidgets/QWebView</header>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="qtdragon.qrc"/>
@@ -13564,7 +13599,7 @@ ALL</string>
    </hints>
   </connection>
   <connection>
-   <sender>spindle_pause</sender>
+   <sender>btn_spindle_pause</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>disable_pause_buttons()</slot>
@@ -13763,7 +13798,7 @@ ALL</string>
    <hints>
     <hint type="sourcelabel">
      <x>678</x>
-     <y>454</y>
+     <y>448</y>
     </hint>
     <hint type="destinationlabel">
      <x>554</x>
@@ -13816,6 +13851,22 @@ ALL</string>
     <hint type="destinationlabel">
      <x>565</x>
      <y>-15</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chk_alpha_mode</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>chk_alpha_mode_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>653</x>
+     <y>305</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>645</x>
+     <y>-49</y>
     </hint>
    </hints>
   </connection>
@@ -13879,6 +13930,8 @@ ALL</string>
   <slot>kb_test_clicked()</slot>
   <slot>chk_use_virtual_changed()</slot>
   <slot>btn_maxv_50_clicked()</slot>
+  <slot>chk_alpha_mode_clicked()</slot>
+  <slot>chk_inhibit_selection_clicked()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="page_buttonGroup"/>

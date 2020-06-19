@@ -14,18 +14,21 @@ MachineLogDialog_play_sound = False
 MachineLogDialog_sound_type = RING
 EntryDialog_play_sound = False
 EntryDialog_sound_type = READY
+RunFromLineDialog_play_sound = True
+RunFromLineDialog_sound_type = READY
 
 [BOOK_KEEPING]
 last_loaded_directory = /home/jim/linuxcnc/nc_files
 last_loaded_file = /home/jim/linuxcnc/nc_files/Dragon.ngc
 RecentPath_0 = /home/jim/linuxcnc/nc_files/Touch_Probe/Top_cap_drill_T10.ngc
+style_QSS_Path = /home/jim/linuxcnc/configs/qtdragon/qtdragon_dark.qss
 
 [SCREEN_OPTIONS]
 catch_errors = True
 desktop_notify = True
 shutdown_check = True
 sound_player_on = False
-mainwindow_geometry = 196 106 1440 860
+mainwindow_geometry = 68 61 1440 860
 
 [MCH_MSG_OPTIONS]
 mchnMsg_play_sound = False
@@ -51,10 +54,9 @@ notify_start_detail = This option can be changed in the preference file
 notify_start_timeout = 5
 
 [CUSTOM_FORM_ENTRIES]
-Tool to load = 13
+Tool to load = 2
 Reload program = True
 Reload tool = True
-Use tool sensor = True
 Use keyboard = True
 Run from line = False
 External offsets = True
@@ -64,17 +66,18 @@ Laser Y = -16.85
 Sensor X = 15.5
 Sensor Y = 16.6
 Work Height = 19.2
-Touch Height = 29.75
+Touch Height = 29.6
 Search Velocity = 200.0
 Probe Velocity = 100.0
 Max Probe = 40.0
-Sensor Height = 39.4
-Use virtual keyboard = True
+Sensor Height = 39.6
+Use virtual keyboard = False
+Use alpha display mode = False
 
 [PROBE OPTIONS]
 Probe tool = 90
-Probe rapid = 110.0
-Probe max xy = 11.0
+Probe rapid = 100.0
+Probe max xy = 10.0
 Probe max z = 2.0
 Probe extra depth = 0.0
 Probe step off = 10.0
@@ -84,8 +87,9 @@ Probe z clearance = 10.0
 Probe edge width = 10.0
 
 [DIALOG_GEOMETRY]
-ToolChangeDialog-geometry = 0 0 296 98
+ToolChangeDialog-geometry = 0 0 303 107
 LncMessage-geometry = 0 0 640 480
 FileDialog-geometry = 64 625 633 408
 axisToolButtonDialog_ENTRY = 435 230 206 100
+RunFromLineDialog-geometry = 343 935 329 222
 
