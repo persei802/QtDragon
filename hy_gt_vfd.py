@@ -109,10 +109,11 @@ def init_pins():
 def set_motor_on(state):
     try:
         ser.write_register(0x1000, state, 0, 6)
+        return True
     except Exception, e:
         h['modbus-errors'] += 1
-        motor_is_on = False
         print("Error writing register 0x1000: " + str(e))
+        return False
 
 # Set spindle speed as percentage of maximum speed
 def set_motor_speed():
@@ -171,8 +172,7 @@ try:
         if h['spindle-on'] is True:
             set_motor_speed()
             if motor_is_on is False:
-                motor_is_on = True
-                set_motor_on(1)
+                motor_is_on = set_motor_on(1)
         elif motor_is_on is True:
             motor_is_on = False
             set_motor_on(5)
