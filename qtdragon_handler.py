@@ -46,6 +46,8 @@ class HandlerClass:
         self.time_tenths = 0
         self.timer_on = False
         self.home_all = False
+        self.min_spindle_rpm = INFO.MIN_SPINDLE_SPEED
+        self.max_spindle_rpm = INFO.MAX_SPINDLE_SPEED
         self.max_linear_velocity = INFO.MAX_LINEAR_VELOCITY * 60
         self.system_list = ["G54","G55","G56","G57","G58","G59","G59.1","G59.2","G59.3"]
         self.slow_jog_factor = 10
@@ -70,7 +72,9 @@ class HandlerClass:
         STATUS.connect('gcode-line-selected', lambda w, line: self.set_start_line(line))
         STATUS.connect('hard-limits-tripped', self.hard_limit_tripped)
         STATUS.connect('program-pause-changed', lambda w, state: self.w.btn_spindle_pause.setEnabled(state))
-        STATUS.connect('user-system-changed', self.user_system_changed)
+        STATUS.connect('actual-spindle-speed-changed', lambda w, speed: self.update_rpm_bar(speed))
+        STATUS.connect('user-system-changed', lambda w, data: self.user_system_changed(data))
+        STATUS.connect('metric-mode-changed', lambda w, mode: self.metric_mode_changed(mode))
         STATUS.connect('file-loaded', self.file_loaded)
         STATUS.connect('homed', self.homed)
         STATUS.connect('all-homed', self.all_homed)
@@ -91,6 +95,7 @@ class HandlerClass:
         self.w.stackedWidget_dro.setCurrentIndex(0)
         self.w.btn_spindle_pause.setEnabled(False)
         self.w.btn_dimensions.setChecked(True)
+        self.w.btn_touch_sensor.setEnabled(self.w.chk_use_tool_sensor.isChecked())
         self.w.page_buttonGroup.buttonClicked.connect(self.main_tab_changed)
         self.w.filemanager.onUserClicked()    
         self.w.filemanager_usb.onMediaClicked()
@@ -152,6 +157,7 @@ class HandlerClass:
         self.w.chk_use_keyboard.setChecked(self.w.PREFS_.getpref('Use keyboard', False, bool, 'CUSTOM_FORM_ENTRIES'))
         self.w.chk_run_from_line.setChecked(self.w.PREFS_.getpref('Run from line', False, bool, 'CUSTOM_FORM_ENTRIES'))
         self.w.chk_use_virtual.setChecked(self.w.PREFS_.getpref('Use virtual keyboard', False, bool, 'CUSTOM_FORM_ENTRIES'))
+        self.w.chk_use_tool_sensor.setChecked(self.w.PREFS_.getpref('Use tool sensor', False, bool, 'CUSTOM_FORM_ENTRIES'))
         self.w.chk_alpha_mode.setChecked(self.w.PREFS_.getpref('Use alpha display mode', False, bool, 'CUSTOM_FORM_ENTRIES'))
         
     def closing_cleanup__(self):
@@ -176,6 +182,7 @@ class HandlerClass:
         self.w.PREFS_.putpref('Use keyboard', self.w.chk_use_keyboard.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
         self.w.PREFS_.putpref('Run from line', self.w.chk_run_from_line.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
         self.w.PREFS_.putpref('Use virtual keyboard', self.w.chk_use_virtual.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
+        self.w.PREFS_.putpref('Use tool sensor', self.w.chk_use_tool_sensor.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
         self.w.PREFS_.putpref('Use alpha display mode', self.w.chk_alpha_mode.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
 
     def init_widgets(self):
@@ -199,6 +206,9 @@ class HandlerClass:
         self.w.lbl_max_rapid.setText(str(self.max_linear_velocity))
         self.w.lbl_home_x.setText(INFO.get_error_safe_setting('JOINT_0', 'HOME',"50"))
         self.w.lbl_home_y.setText(INFO.get_error_safe_setting('JOINT_1', 'HOME',"50"))
+        self.w.lbl_min_rpm.setText(str(self.min_spindle_rpm))
+        self.w.lbl_max_rpm.setText(str(self.max_spindle_rpm))
+        self.w.spindle_rpm.setValue(0)
         self.w.cmb_gcode_history.addItem("No File Loaded")
         self.w.cmb_gcode_history.wheelEvent = lambda event: None
         self.w.jogincrements_linear.wheelEvent = lambda event: None
@@ -327,10 +337,19 @@ class HandlerClass:
         elif wait_code and name == 'MESSAGE':
             self.h['eoffset_clear'] = False
 
-    def user_system_changed(self, obj, data):
+    def user_system_changed(self, data):
         sys = self.system_list[int(data) - 1]
         self.w.offset_table.selectRow(int(data) + 3)
         self.w.actionbutton_rel.setText(sys)
+
+    def metric_mode_changed(self, mode):
+        if mode is False:
+            self.w.lbl_jog_linear.setText('JOG RATE\nIN/MIN')
+            maxvel = float(self.max_linear_velocity) / 25.4
+        else:
+            self.w.lbl_jog_linear.setText('JOG RATE\nMM/MIN')
+            maxvel = float(self.max_linear_velocity)
+        self.w.lbl_max_rapid.setText("{:4.0f}".format(maxvel))
 
     def file_loaded(self, obj, filename):
         if filename is not None:
@@ -502,7 +521,10 @@ class HandlerClass:
         self.w.lbl_maxv_percent.setText("{:3.0f} %".format(maxpc))
 
     def slider_rapid_changed(self, value):
-        rapid = (float(value) / 100) * self.max_linear_velocity
+        if STATUS.is_metric_mode():
+            rapid = (float(value) / 100) * self.max_linear_velocity
+        else:
+            rapid = (float(value) / 100) * (self.max_linear_velocity / 25.4)
         self.w.lbl_max_rapid.setText("{:4.0f}".format(rapid))
 
     def btn_maxv_100_clicked(self):
@@ -629,6 +651,9 @@ class HandlerClass:
     def chk_alpha_mode_clicked(self, state):
         self.w.gcodegraphics.set_alpha_mode(state)
 
+    def chk_use_sensor_changed(self, state):
+        self.w.btn_touch_sensor.setEnabled(state)
+
     def chk_use_virtual_changed(self, state):
         if state:
             self.w.btn_keyboard.show()
@@ -656,6 +681,7 @@ class HandlerClass:
 
     def disable_spindle_pause(self):
         self.h['eoffset_count'] = 0
+        self.h['spindle_pause'] = False
         if self.w.btn_spindle_pause.isChecked():
             self.w.btn_spindle_pause.setChecked(False)
 
@@ -750,6 +776,24 @@ class HandlerClass:
         else:
             self.add_status('Keyboard shortcuts are disabled')
             return False
+
+    def update_rpm_bar(self, speed):
+        rpm = int(speed)
+        if rpm < self.min_spindle_rpm:
+            rpm_pc = 0
+            if STATUS.is_spindle_on():
+                self.w.lbl_min_rpm.setStyleSheet("color: red;")
+                self.w.lbl_max_rpm.setStyleSheet("")
+        elif rpm > self.max_spindle_rpm:
+            rpm_pc = 100
+            if STATUS.is_spindle_on():
+                self.w.lbl_min_rpm.setStyleSheet("")
+                self.w.lbl_max_rpm.setStyleSheet("color: red;")
+        else:
+            rpm_pc = ((rpm - self.min_spindle_rpm) * 100) / (self.max_spindle_rpm - self.min_spindle_rpm)
+            self.w.lbl_min_rpm.setStyleSheet("")
+            self.w.lbl_max_rpm.setStyleSheet("")
+        self.w.spindle_rpm.setValue(int(rpm_pc))
 
     def update_runtimer(self):
         if self.timer_on is False or STATUS.is_auto_paused(): return
