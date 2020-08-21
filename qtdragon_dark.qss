@@ -85,6 +85,18 @@ StatusLabel#lbl_clock {
     border: none;
 }
 
+DROLabel {
+    background: #202020;
+    border: 1px solid black;
+    border-radius: 4px;
+    font: 20pt "Lato Heavy";
+    color: #00FF00;
+}
+
+DROLabel[homed=false] {
+    color: red;
+}
+
 QLineEdit {
     background: black;
     border: 1px solid gray;

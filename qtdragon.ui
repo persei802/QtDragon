@@ -237,7 +237,7 @@
                <enum>QFrame::Raised</enum>
               </property>
               <property name="currentIndex">
-               <number>2</number>
+               <number>0</number>
               </property>
               <widget class="QWidget" name="gcode_page">
                <property name="sizePolicy">
@@ -303,13 +303,6 @@
                   <property name="toolTip">
                    <string>History of loaded GCODE programs</string>
                   </property>
-                  <property name="styleSheet">
-                   <string notr="true">    background: rgb(240,240,240);
-    border: none;
-    font: 10pt &quot;Lato Heavy&quot;;
-    color: black;
-</string>
-                  </property>
                   <property name="editable">
                    <bool>false</bool>
                   </property>
@@ -317,7 +310,7 @@
                    <string/>
                   </property>
                   <property name="maxCount">
-                   <number>10</number>
+                   <number>100</number>
                   </property>
                   <property name="insertPolicy">
                    <enum>QComboBox::InsertAtTop</enum>
@@ -499,7 +492,7 @@
                       <string>MM</string>
                      </property>
                      <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                      <set>Qt::AlignCenter</set>
                      </property>
                     </widget>
                    </item>
@@ -610,7 +603,7 @@
                       <string>MM</string>
                      </property>
                      <property name="alignment">
-                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                      <set>Qt::AlignCenter</set>
                      </property>
                     </widget>
                    </item>
@@ -763,6 +756,28 @@
                      </property>
                     </widget>
                    </item>
+                   <item>
+                    <widget class="QLabel" name="label_70">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
                   </layout>
                  </widget>
                 </item>
@@ -808,7 +823,7 @@
                       <string>TOOL SENSOR LOCATION</string>
                      </property>
                      <property name="alignment">
-                      <set>Qt::AlignCenter</set>
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                      </property>
                     </widget>
                    </item>
@@ -874,6 +889,34 @@
                      </property>
                     </widget>
                    </item>
+                   <item>
+                    <widget class="QLabel" name="label_67">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>MM</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
                   </layout>
                  </widget>
                 </item>
@@ -919,7 +962,7 @@
                       <string>LASER OFFSET</string>
                      </property>
                      <property name="alignment">
-                      <set>Qt::AlignCenter</set>
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                      </property>
                     </widget>
                    </item>
@@ -985,6 +1028,34 @@
                      </property>
                     </widget>
                    </item>
+                   <item>
+                    <widget class="QLabel" name="label_68">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>MM</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
                   </layout>
                  </widget>
                 </item>
@@ -1030,7 +1101,7 @@
                       <string>CAMERA OFFSET</string>
                      </property>
                      <property name="alignment">
-                      <set>Qt::AlignCenter</set>
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                      </property>
                     </widget>
                    </item>
@@ -1084,6 +1155,34 @@
                      </property>
                      <property name="maxLength">
                       <number>8</number>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_69">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>MM</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignCenter</set>
@@ -2236,43 +2335,6 @@ PLATE</string>
                </widget>
               </item>
               <item>
-               <widget class="PushButton" name="btn_keyboard">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>70</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>70</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>KEYBD</string>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-                <property name="python_command_option" stdset="0">
-                 <bool>true</bool>
-                </property>
-                <property name="true_python_cmd_string" stdset="0">
-                 <string>INSTANCE.stackedWidget_dro.setCurrentIndex(1)</string>
-                </property>
-                <property name="false_python_cmd_string" stdset="0">
-                 <string>INSTANCE.stackedWidget_dro.setCurrentIndex(0)</string>
-                </property>
-               </widget>
-              </item>
-              <item>
                <widget class="ActionButton" name="action_machine_on">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2681,7 +2743,7 @@ RESET</string>
                     <enum>QFrame::Raised</enum>
                    </property>
                    <property name="currentIndex">
-                    <number>6</number>
+                    <number>3</number>
                    </property>
                    <widget class="QWidget" name="main_tab_widgetPage1">
                     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -3375,10 +3437,13 @@ RESET</string>
                        </property>
                        <property name="background_color" stdset="0">
                         <color>
-                         <red>0</red>
-                         <green>0</green>
-                         <blue>0</blue>
+                         <red>100</red>
+                         <green>100</green>
+                         <blue>100</blue>
                         </color>
+                       </property>
+                       <property name="_use_gradient_background" stdset="0">
+                        <bool>true</bool>
                        </property>
                        <property name="overlay" stdset="0">
                         <bool>false</bool>
@@ -3662,8 +3727,11 @@ GCODE</string>
                           <property name="autoScrollMargin">
                            <number>16</number>
                           </property>
+                          <property name="alternatingRowColors">
+                           <bool>false</bool>
+                          </property>
                           <property name="selectionBehavior">
-                           <enum>QAbstractItemView::SelectRows</enum>
+                           <enum>QAbstractItemView::SelectItems</enum>
                           </property>
                           <property name="cornerButtonEnabled">
                            <bool>false</bool>
@@ -3876,8 +3944,17 @@ ROTATION</string>
                        <property name="frameShape">
                         <enum>QFrame::NoFrame</enum>
                        </property>
+                       <property name="alternatingRowColors">
+                        <bool>false</bool>
+                       </property>
+                       <property name="cornerButtonEnabled">
+                        <bool>true</bool>
+                       </property>
                        <attribute name="horizontalHeaderDefaultSectionSize">
                         <number>60</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderHighlightSections">
+                        <bool>false</bool>
                        </attribute>
                        <attribute name="verticalHeaderVisible">
                         <bool>false</bool>
@@ -3886,7 +3963,7 @@ ROTATION</string>
                         <number>24</number>
                        </attribute>
                        <attribute name="verticalHeaderHighlightSections">
-                        <bool>true</bool>
+                        <bool>false</bool>
                        </attribute>
                       </widget>
                      </item>
@@ -5621,81 +5698,6 @@ TO FILE</string>
                             </property>
                             <property name="alignment">
                              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                            </property>
-                            <property name="readOnly">
-                             <bool>true</bool>
-                            </property>
-                           </widget>
-                          </item>
-                         </layout>
-                        </item>
-                        <item>
-                         <layout class="QVBoxLayout" name="verticalLayout_29">
-                          <property name="spacing">
-                           <number>2</number>
-                          </property>
-                          <property name="topMargin">
-                           <number>0</number>
-                          </property>
-                          <item alignment="Qt::AlignHCenter">
-                           <widget class="QLabel" name="label_41">
-                            <property name="sizePolicy">
-                             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                              <horstretch>0</horstretch>
-                              <verstretch>0</verstretch>
-                             </sizepolicy>
-                            </property>
-                            <property name="minimumSize">
-                             <size>
-                              <width>0</width>
-                              <height>24</height>
-                             </size>
-                            </property>
-                            <property name="maximumSize">
-                             <size>
-                              <width>16777215</width>
-                              <height>24</height>
-                             </size>
-                            </property>
-                            <property name="toolTip">
-                             <string/>
-                            </property>
-                            <property name="text">
-                             <string>VFD FAULT</string>
-                            </property>
-                            <property name="alignment">
-                             <set>Qt::AlignCenter</set>
-                            </property>
-                           </widget>
-                          </item>
-                          <item alignment="Qt::AlignHCenter">
-                           <widget class="QLineEdit" name="lbl_spindle_fault">
-                            <property name="sizePolicy">
-                             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                              <horstretch>0</horstretch>
-                              <verstretch>0</verstretch>
-                             </sizepolicy>
-                            </property>
-                            <property name="minimumSize">
-                             <size>
-                              <width>60</width>
-                              <height>24</height>
-                             </size>
-                            </property>
-                            <property name="maximumSize">
-                             <size>
-                              <width>60</width>
-                              <height>24</height>
-                             </size>
-                            </property>
-                            <property name="toolTip">
-                             <string>VFD fault code</string>
-                            </property>
-                            <property name="text">
-                             <string>0x0</string>
-                            </property>
-                            <property name="alignment">
-                             <set>Qt::AlignCenter</set>
                             </property>
                             <property name="readOnly">
                              <bool>true</bool>
@@ -7872,6 +7874,13 @@ OFF</string>
                    <height>24</height>
                   </size>
                  </property>
+                 <property name="font">
+                  <font>
+                   <family>Lato</family>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
                  <property name="autoFillBackground">
                   <bool>false</bool>
                  </property>
@@ -7884,11 +7893,11 @@ OFF</string>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
                  </property>
+                 <property name="textVisible">
+                  <bool>true</bool>
+                 </property>
                  <property name="invertedAppearance">
                   <bool>false</bool>
-                 </property>
-                 <property name="format">
-                  <string>PROGRESS %p%</string>
                  </property>
                 </widget>
                </item>
@@ -8744,6 +8753,23 @@ OFF</string>
                         <height>30</height>
                        </size>
                       </property>
+                      <property name="color">
+                       <color>
+                        <red>0</red>
+                        <green>255</green>
+                        <blue>0</blue>
+                       </color>
+                      </property>
+                      <property name="off_color" stdset="0">
+                       <color>
+                        <red>0</red>
+                        <green>255</green>
+                        <blue>0</blue>
+                       </color>
+                      </property>
+                      <property name="currentstate" stdset="0">
+                       <bool>false</bool>
+                      </property>
                       <property name="is_idle_status" stdset="0">
                        <bool>true</bool>
                       </property>
@@ -9290,19 +9316,6 @@ SPINDLE</string>
                           <height>50</height>
                          </size>
                         </property>
-                        <property name="styleSheet">
-                         <string notr="true">DROLabel {
-    background-color: black;
-/*    border: 2px solid black;*/
-    font: 20pt &quot;Lato Heavy&quot;;
-    color: #00FF00;
-}
-
-DROLabel[homed=false] {
-    color: red;
-}
-</string>
-                        </property>
                         <property name="frameShape">
                          <enum>QFrame::WinPanel</enum>
                         </property>
@@ -9340,18 +9353,6 @@ DROLabel[homed=false] {
                           <height>50</height>
                          </size>
                         </property>
-                        <property name="styleSheet">
-                         <string notr="true">DROLabel {
-    background-color: black;
-    font: 20pt &quot;Lato Heavy&quot;;
-    color: #00FF00;
-}
-
-DROLabel[homed=false] {
-    color: red;
-}
-</string>
-                        </property>
                         <property name="frameShape">
                          <enum>QFrame::WinPanel</enum>
                         </property>
@@ -9388,18 +9389,6 @@ DROLabel[homed=false] {
                           <width>16777215</width>
                           <height>50</height>
                          </size>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">DROLabel {
-    background-color: black;
-    font: 20pt &quot;Lato Heavy&quot;;
-    color: #00FF00;
-}
-
-DROLabel[homed=false] {
-    color: red;
-}
-</string>
                         </property>
                         <property name="frameShape">
                          <enum>QFrame::WinPanel</enum>
@@ -10011,18 +10000,6 @@ DROLabel[homed=false] {
                           <width>16777215</width>
                           <height>50</height>
                          </size>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">DROLabel {
-    background-color: black;
-    font: 20pt &quot;Lato Heavy&quot;;
-    color: #00FF00;
-}
-
-DROLabel[homed=false] {
-    color: red;
-}
-</string>
                         </property>
                         <property name="frameShape">
                          <enum>QFrame::WinPanel</enum>
@@ -13365,41 +13342,6 @@ ALL</string>
                     </property>
                     <item>
                      <widget class="QLabel" name="label_57">
-                      <property name="minimumSize">
-                       <size>
-                        <width>60</width>
-                        <height>24</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>60</width>
-                        <height>24</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string/>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="label_62">
-                      <property name="minimumSize">
-                       <size>
-                        <width>20</width>
-                        <height>24</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>20</width>
-                        <height>24</height>
-                       </size>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="label_5">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -13408,24 +13350,18 @@ ALL</string>
                       </property>
                       <property name="minimumSize">
                        <size>
-                        <width>70</width>
+                        <width>60</width>
                         <height>24</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>70</width>
+                        <width>60</width>
                         <height>24</height>
                        </size>
                       </property>
-                      <property name="toolTip">
-                       <string>Motion limited due to external offsets</string>
-                      </property>
                       <property name="text">
                        <string>LIMIT</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                       </property>
                      </widget>
                     </item>
@@ -13439,18 +13375,86 @@ ALL</string>
                       </property>
                       <property name="minimumSize">
                        <size>
-                        <width>50</width>
+                        <width>20</width>
                         <height>24</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>50</width>
+                        <width>20</width>
                         <height>24</height>
                        </size>
                       </property>
                       <property name="diameter">
                        <number>15</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_5">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>60</width>
+                        <height>24</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>60</width>
+                        <height>24</height>
+                       </size>
+                      </property>
+                      <property name="toolTip">
+                       <string>Motion limited due to external offsets</string>
+                      </property>
+                      <property name="text">
+                       <string>FAULT</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="lbl_spindle_fault">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>60</width>
+                        <height>24</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>60</width>
+                        <height>24</height>
+                       </size>
+                      </property>
+                      <property name="toolTip">
+                       <string>VFD fault code</string>
+                      </property>
+                      <property name="text">
+                       <string>0x0</string>
+                      </property>
+                      <property name="maxLength">
+                       <number>10</number>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignCenter</set>
+                      </property>
+                      <property name="readOnly">
+                       <bool>true</bool>
                       </property>
                      </widget>
                     </item>
@@ -13488,7 +13492,10 @@ ALL</string>
                    </widget>
                   </item>
                   <item alignment="Qt::AlignHCenter">
-                   <widget class="QProgressBar" name="spindle_rpm">
+                   <widget class="QSlider" name="spindle_rpm">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                       <horstretch>0</horstretch>
@@ -13497,30 +13504,27 @@ ALL</string>
                     </property>
                     <property name="minimumSize">
                      <size>
-                      <width>24</width>
+                      <width>30</width>
                       <height>0</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>24</width>
+                      <width>30</width>
                       <height>16777215</height>
                      </size>
                     </property>
                     <property name="focusPolicy">
                      <enum>Qt::NoFocus</enum>
                     </property>
-                    <property name="toolTip">
-                     <string>Spindle RPM</string>
-                    </property>
-                    <property name="value">
-                     <number>24</number>
+                    <property name="maximum">
+                     <number>100</number>
                     </property>
                     <property name="orientation">
                      <enum>Qt::Vertical</enum>
                     </property>
-                    <property name="format">
-                     <string/>
+                    <property name="tickPosition">
+                     <enum>QSlider::NoTicks</enum>
                     </property>
                    </widget>
                   </item>
@@ -13623,7 +13627,7 @@ ALL</string>
             <number>2</number>
            </property>
            <property name="text">
-            <string>03:38:30 PM</string>
+            <string>10:17:47 AM</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -14064,22 +14068,6 @@ ALL</string>
    </hints>
   </connection>
   <connection>
-   <sender>gcode_viewer</sender>
-   <signal>percentDone(int)</signal>
-   <receiver>progressBar</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>103</x>
-     <y>33</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>116</x>
-     <y>823</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>action_abort</sender>
    <signal>clicked()</signal>
    <receiver>progressBar</receiver>
@@ -14150,8 +14138,8 @@ ALL</string>
    <slot>btn_goto_sensor_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>89</x>
-     <y>469</y>
+     <x>85</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -14166,8 +14154,8 @@ ALL</string>
    <slot>btn_ref_laser_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>253</x>
-     <y>469</y>
+     <x>85</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
      <x>238</x>
@@ -14182,8 +14170,8 @@ ALL</string>
    <slot>btn_touchoff_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>416</x>
-     <y>469</y>
+     <x>85</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
      <x>322</x>
@@ -14231,7 +14219,7 @@ ALL</string>
    <hints>
     <hint type="sourcelabel">
      <x>482</x>
-     <y>96</y>
+     <y>327</y>
     </hint>
     <hint type="destinationlabel">
      <x>454</x>
@@ -14246,8 +14234,8 @@ ALL</string>
    <slot>chk_run_from_line_checked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>528</x>
-     <y>86</y>
+     <x>536</x>
+     <y>392</y>
     </hint>
     <hint type="destinationlabel">
      <x>554</x>
@@ -14262,8 +14250,8 @@ ALL</string>
    <slot>chk_override_limits_checked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>528</x>
-     <y>86</y>
+     <x>536</x>
+     <y>500</y>
     </hint>
     <hint type="destinationlabel">
      <x>719</x>
@@ -14294,8 +14282,8 @@ ALL</string>
    <slot>chk_use_virtual_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>528</x>
-     <y>86</y>
+     <x>536</x>
+     <y>419</y>
     </hint>
     <hint type="destinationlabel">
      <x>565</x>
@@ -14310,8 +14298,8 @@ ALL</string>
    <slot>chk_alpha_mode_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>528</x>
-     <y>86</y>
+     <x>536</x>
+     <y>257</y>
     </hint>
     <hint type="destinationlabel">
      <x>645</x>
@@ -14326,8 +14314,8 @@ ALL</string>
    <slot>chk_use_sensor_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>528</x>
-     <y>86</y>
+     <x>536</x>
+     <y>446</y>
     </hint>
     <hint type="destinationlabel">
      <x>508</x>
@@ -14358,8 +14346,8 @@ ALL</string>
    <slot>chk_use_camera_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>528</x>
-     <y>86</y>
+     <x>536</x>
+     <y>473</y>
     </hint>
     <hint type="destinationlabel">
      <x>656</x>
@@ -14374,8 +14362,8 @@ ALL</string>
    <slot>btn_ref_camera_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>283</x>
-     <y>438</y>
+     <x>85</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
      <x>273</x>
@@ -14428,6 +14416,38 @@ ALL</string>
     <hint type="destinationlabel">
      <x>1105</x>
      <y>-53</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gcode_viewer</sender>
+   <signal>percentDone(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>percent_done_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>143</x>
+     <y>287</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-68</x>
+     <y>302</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gcodegraphics</sender>
+   <signal>percentLoaded(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>percent_loaded_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>854</x>
+     <y>165</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>832</x>
+     <y>-50</y>
     </hint>
    </hints>
   </connection>
@@ -14499,9 +14519,11 @@ ALL</string>
   <slot>cam_zoom_changed()</slot>
   <slot>cam_dia_changed()</slot>
   <slot>cam_rot_changed()</slot>
+  <slot>percent_done_changed()</slot>
+  <slot>percent_loaded_changed()</slot>
  </slots>
  <buttongroups>
-  <buttongroup name="mode_buttonGroup"/>
   <buttongroup name="page_buttonGroup"/>
+  <buttongroup name="mode_buttonGroup"/>
  </buttongroups>
 </ui>
