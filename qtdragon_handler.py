@@ -2,6 +2,7 @@ import os
 import hal
 import hal_glib
 from PyQt5 import QtCore, QtWidgets, QtGui
+from PyQt5.QtWebKitWidgets import QWebView, QWebPage
 from qtvcp.widgets.gcode_editor import GcodeEditor as GCODE
 from qtvcp.widgets.mdi_line import MDILine as MDI_WIDGET
 from qtvcp.widgets.tool_offsetview import ToolOffsetView as TOOL_TABLE
@@ -10,7 +11,7 @@ from qtvcp.widgets.stylesheeteditor import StyleSheetEditor as SSE
 from qtvcp.widgets.file_manager import FileManager as FM
 from qtvcp.lib.keybindings import Keylookup
 from qtvcp.lib.gcodes import GCodes
-from qtvcp.core import Status, Action, Info
+from qtvcp.core import Status, Action, Info, Path
 from qtvcp import logger
 from shutil import copyfile
 
@@ -19,6 +20,7 @@ KEYBIND = Keylookup()
 STATUS = Status()
 INFO = Info()
 ACTION = Action()
+PATH = Path()
 
 # constants for tab pages
 TAB_MAIN = 0
@@ -43,6 +45,8 @@ class HandlerClass:
         KEYBIND.add_call('Key_Pause', 'on_keycall_pause')
                 
         # some global variables
+        self.default_setup = os.path.join(PATH.CONFIGPATH, "default_setup.html")
+        self.start_line = 0
         self.run_time = 0
         self.time_tenths = 0
         self.timer_on = False
@@ -74,7 +78,7 @@ class HandlerClass:
         STATUS.connect('gcode-line-selected', lambda w, line: self.set_start_line(line))
         STATUS.connect('hard-limits-tripped', self.hard_limit_tripped)
         STATUS.connect('program-pause-changed', lambda w, state: self.w.btn_spindle_pause.setEnabled(state))
-        STATUS.connect('actual-spindle-speed-changed', lambda w, speed: self.update_rpm_bar(speed))
+        STATUS.connect('actual-spindle-speed-changed', lambda w, speed: self.update_rpm(speed))
         STATUS.connect('user-system-changed', lambda w, data: self.user_system_changed(data))
         STATUS.connect('metric-mode-changed', lambda w, mode: self.metric_mode_changed(mode))
         STATUS.connect('file-loaded', self.file_loaded)
@@ -103,6 +107,7 @@ class HandlerClass:
         self.w.filemanager_usb.onMediaClicked()
         self.chk_run_from_line_checked(self.w.chk_run_from_line.isChecked())
         self.chk_use_camera_changed(self.w.chk_use_camera.isChecked())
+        self.chk_alpha_mode_clicked(self.w.chk_alpha_mode.isChecked())
     # hide widgets for A axis if not present
         if "A" not in INFO.AVAILABLE_AXES:
             for i in self.axis_a_list:
@@ -112,9 +117,10 @@ class HandlerClass:
         for val in self.lineedit_list:
             self.w['lineEdit_' + val].setValidator(self.valid)
     # check for default setup html file
-        fname = os.path.join(os.path.expanduser('~'), 'linuxcnc/configs/qtdragon/default_setup.html')
-        if os.path.exists(fname):
-            self.w.setup_webView.load(QtCore.QUrl.fromLocalFile(fname))
+        try:
+            self.web_page.mainFrame().load(QtCore.QUrl.fromLocalFile(self.default_setup))
+        except Exception as e:
+            print("No default setup file found - {}".format(e))
 
     #############################
     # SPECIAL FUNCTIONS SECTION #
@@ -135,7 +141,7 @@ class HandlerClass:
         self.h.newpin("eoffset_clear", hal.HAL_BIT, hal.HAL_OUT)
         self.h.newpin("eoffset_count", hal.HAL_S32, hal.HAL_OUT)
         pin = self.h.newpin("eoffset_value", hal.HAL_FLOAT, hal.HAL_IN)
-        hal_glib.GPin(pin).connect("value_changed", self.eoffset_changed)
+#        hal_glib.GPin(pin).connect("value_changed", self.eoffset_changed)
 
     def init_preferences(self):
         if not self.w.PREFS_:
@@ -195,7 +201,7 @@ class HandlerClass:
         self.w.PREFS_.putpref('Use alpha display mode', self.w.chk_alpha_mode.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
 
     def init_widgets(self):
-        self.w.main_tab_widget.setCurrentIndex(0)
+        self.w.main_tab_widget.setCurrentIndex(TAB_MAIN)
         self.w.slider_jog_linear.setMaximum(self.max_linear_velocity)
         self.w.slider_jog_linear.setValue(INFO.DEFAULT_LINEAR_JOG_VEL)
         self.w.slider_jog_angular.setMaximum(INFO.MAX_ANGULAR_JOG_VEL)
@@ -215,9 +221,6 @@ class HandlerClass:
         self.w.lbl_max_rapid.setText(str(self.max_linear_velocity))
         self.w.lbl_home_x.setText(INFO.get_error_safe_setting('JOINT_0', 'HOME',"50"))
         self.w.lbl_home_y.setText(INFO.get_error_safe_setting('JOINT_1', 'HOME',"50"))
-        self.w.lbl_min_rpm.setText(str(self.min_spindle_rpm))
-        self.w.lbl_max_rpm.setText(str(self.max_spindle_rpm))
-        self.w.spindle_rpm.setValue(0)
         self.w.cmb_gcode_history.addItem("No File Loaded")
         self.w.cmb_gcode_history.wheelEvent = lambda event: None
         self.w.jogincrements_linear.wheelEvent = lambda event: None
@@ -227,9 +230,12 @@ class HandlerClass:
         self.w.filemanager_usb.list.setAlternatingRowColors(False)
         #set up gcode list
         self.gcodes.setup_list()
-        # clickable frames
-        self.w.frame_cycle_start.mousePressEvent = self.btn_start_clicked
-        self.w.frame_home_all.mousePressEvent = self.btn_home_all_clicked
+        # set up web page viewer
+        self.web_view = QWebView()
+        self.web_page = QWebPage()
+        self.web_page.setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
+        self.web_view.setPage(self.web_page)
+        self.w.layout_setup.addWidget(self.web_view)
 
     def processed_focus_event__(self, receiver, event):
         if not self.w.chk_use_virtual.isChecked() or STATUS.is_auto_mode(): return
@@ -302,7 +308,7 @@ class HandlerClass:
         except Exception as e:
             if is_pressed:
                 LOG.debug('Exception in KEYBINDING:', exc_info=e)
-                print 'Error in, or no function for: %s in handler file for-%s'%(KEYBIND.convert(event),key)
+                print ('Error in, or no function for: %s in handler file for-%s'%(KEYBIND.convert(event),key))
         event.accept()
         return True
 
@@ -326,10 +332,6 @@ class HandlerClass:
     def mb_errors_changed(self, data):
         errors = self.h['modbus-errors']
         self.w.lbl_mb_errors.setText(str(errors))
-
-    def eoffset_changed(self, data):
-        eoffset = "{:2.3f}".format(self.h['eoffset_value'])
-        self.w.lbl_eoffset_value.setText(eoffset)
 
     def dialog_return(self, w, message):
         rtn = message.get('RETURN')
@@ -389,15 +391,14 @@ class HandlerClass:
     def homed(self, obj, joint):
         i = int(joint)
         axis = INFO.GET_NAME_FROM_JOINT.get(i).lower()
-        try:
-            self.w["dro_axis_{}".format(axis)].setProperty('homed', True)
-            self.w["dro_axis_{}".format(axis)].setStyle(self.w["dro_axis_{}".format(axis)].style())
-        except:
-            pass
+        widget = self.w["dro_axis_{}".format(axis)]
+        widget.setProperty('homed', True)
+        widget.style().unpolish(widget)
+        widget.style().polish(widget)
 
     def all_homed(self, obj):
         self.home_all = True
-        self.w.lbl_home_all.setText("ALL\nHOMED")
+        self.w.btn_home_all.setText("ALL HOMED")
         if self.first_turnon is True:
             self.first_turnon = False
             if self.w.chk_reload_tool.isChecked():
@@ -413,15 +414,14 @@ class HandlerClass:
 
     def not_all_homed(self, obj, list):
         self.home_all = False
-        self.w.lbl_home_all.setText("HOME\nALL")
+        self.w.btn_home_all.setText("HOME ALL")
         for i in INFO.AVAILABLE_JOINTS:
             if str(i) in list:
                 axis = INFO.GET_NAME_FROM_JOINT.get(i).lower()
-                try:
-                    self.w["dro_axis_{}".format(axis)].setProperty('homed', False)
-                    self.w["dro_axis_{}".format(axis)].setStyle(self.w["dro_axis_{}".format(axis)].style())
-                except:
-                    pass
+                widget = self.w["dro_axis_{}".format(axis)]
+                widget.setProperty('homed', False)
+                widget.style().unpolish(widget)
+                widget.style().polish(widget)
 
     def hard_limit_tripped(self, obj, tripped, list_of_tripped):
         self.add_status("Hard limits tripped")
@@ -443,6 +443,10 @@ class HandlerClass:
         if index is None: return
         self.w.main_tab_widget.setCurrentIndex(index)
         self.w.stackedWidget.setCurrentIndex(self.tab_index_code[index])
+        if index == TAB_SETUP:
+            self.w.jogging_frame.hide()
+        else:
+            self.w.jogging_frame.show()
         if index == TAB_MAIN:
             self.w.stackedWidget_dro.setCurrentIndex(0)
 
@@ -467,15 +471,14 @@ class HandlerClass:
             return
         self.run_time = 0
         self.w.lbl_runtime.setText("00:00:00")
-        start_line = int(self.w.lbl_start_line.text().encode('utf-8'))
-        if start_line <= 1:
-            ACTION.RUN(start_line)
+        if self.start_line <= 1:
+            ACTION.RUN(self.start_line)
         else:
             # instantiate run from line preset dialog
-            info = '<b>Running From Line: {} <\b>'.format(start_line)
-            mess = {'NAME':'RUNFROMLINE', 'TITLE':'Preset Dialog', 'ID':'_RUNFROMLINE', 'MESSAGE':info, 'LINE':start_line}
+            info = '<b>Running From Line: {} <\b>'.format(self.start_line)
+            mess = {'NAME':'RUNFROMLINE', 'TITLE':'Preset Dialog', 'ID':'_RUNFROMLINE', 'MESSAGE':info, 'LINE':self.start_line}
             ACTION.CALL_DIALOG(mess)
-        self.add_status("Started program from line {}".format(start_line))
+        self.add_status("Started program from line {}".format(self.start_line))
         self.timer_on = True
 
     def btn_reload_file_clicked(self):
@@ -688,16 +691,14 @@ class HandlerClass:
 
     def chk_run_from_line_checked(self, state):
         self.w.gcodegraphics.set_inhibit_selection(not state)
+        self.w.btn_start.setText("START\n1") if state else self.w.btn_start.setText("START")
 
     def chk_alpha_mode_clicked(self, state):
         self.w.gcodegraphics.set_alpha_mode(state)
 
     def chk_use_camera_changed(self, state):
         self.w.btn_ref_camera.setEnabled(state)
-        if state :
-            self.w.btn_camera.show()
-        else:
-            self.w.btn_camera.hide()
+        self.w.btn_camera.show() if state else self.w.btn_camera.hide()
 
     def chk_use_sensor_changed(self, state):
         self.w.btn_touch_sensor.setEnabled(state)
@@ -718,10 +719,15 @@ class HandlerClass:
             self.add_status("Loaded program file : {}".format(fname))
             self.w.main_tab_widget.setCurrentIndex(TAB_MAIN)
         elif fname.endswith(".html"):
-            self.w.setup_webView.load(QtCore.QUrl.fromLocalFile(fname))
-            self.add_status("Loaded HTML file : {}".format(fname))
-            self.w.main_tab_widget.setCurrentIndex(TAB_SETUP)
-            self.w.btn_setup.setChecked(True)
+            try:
+                self.web_page.mainFrame().load(QtCore.QUrl.fromLocalFile(fname))
+                self.add_status("Loaded HTML file : {}".format(fname))
+                self.w.main_tab_widget.setCurrentIndex(TAB_SETUP)
+                self.w.stackedWidget.setCurrentIndex(0)
+                self.w.btn_setup.setChecked(True)
+                self.w.jogging_frame.hide()
+            except Exception as e:
+                print("Error loading HTML file : {}".format(e))
         else:
             self.add_status("Unknown or invalid filename")
 
@@ -789,7 +795,8 @@ class HandlerClass:
         for widget in self.auto_list:
             self.w[widget].setEnabled(state)
         if state is True:
-            self.w.jogging_frame.show()
+            if self.w.main_tab_widget.currentIndex() != TAB_SETUP:
+                self.w.jogging_frame.show()
         else:
             self.w.jogging_frame.hide()
             self.w.btn_main.setChecked(True)
@@ -809,9 +816,10 @@ class HandlerClass:
 
     def set_start_line(self, line):
         if self.w.chk_run_from_line.isChecked():
-            self.w.lbl_start_line.setText(str(line))
+            self.start_line = line
+            self.w.btn_start.setText("START\n{}".format(self.start_line))
         else:
-            self.w.lbl_start_line.setText('1')
+            self.start_line = 1
 
     def use_keyboard(self):
         if self.w.chk_use_keyboard.isChecked():
@@ -820,23 +828,18 @@ class HandlerClass:
             self.add_status('Keyboard shortcuts are disabled')
             return False
 
-    def update_rpm_bar(self, speed):
-        rpm = int(speed)
-        if rpm < self.min_spindle_rpm:
-            rpm_pc = 0
+    def update_rpm(self, speed):
+        if self.max_spindle_rpm < int(speed) < self.min_spindle_rpm:
+            print("Spindle out of range")
             if STATUS.is_spindle_on():
-                self.w.lbl_min_rpm.setStyleSheet("color: red;")
-                self.w.lbl_max_rpm.setStyleSheet("")
-        elif rpm > self.max_spindle_rpm:
-            rpm_pc = 100
-            if STATUS.is_spindle_on():
-                self.w.lbl_min_rpm.setStyleSheet("")
-                self.w.lbl_max_rpm.setStyleSheet("color: red;")
+                print("Spindle is on")
+                self.w.lbl_spindle_set.setProperty('in_range', False)
+                self.w.lbl_spindle_set.style().unpolish(self.w.lbl_spindle_set)
+                self.w.lbl_spindle_set.style().polish(self.w.lbl_spindle_set)
         else:
-            rpm_pc = ((rpm - self.min_spindle_rpm) * 100) / (self.max_spindle_rpm - self.min_spindle_rpm)
-            self.w.lbl_min_rpm.setStyleSheet("")
-            self.w.lbl_max_rpm.setStyleSheet("")
-        self.w.spindle_rpm.setValue(int(rpm_pc))
+            self.w.lbl_spindle_set.setProperty('in_range', True)
+            self.w.lbl_spindle_set.style().unpolish(self.w.lbl_spindle_set)
+            self.w.lbl_spindle_set.style().polish(self.w.lbl_spindle_set)
 
     def update_runtimer(self):
         if self.timer_on is False or STATUS.is_auto_paused(): return
@@ -850,6 +853,8 @@ class HandlerClass:
 
     def stop_timer(self):
         self.timer_on = False
+        if STATUS.is_auto_mode():
+            self.add_status("Run timer stopped at {}".format(self.w.lbl_runtime.text()))
 
     #####################
     # KEY BINDING CALLS #
