@@ -391,10 +391,13 @@ class HandlerClass:
     def homed(self, obj, joint):
         i = int(joint)
         axis = INFO.GET_NAME_FROM_JOINT.get(i).lower()
-        widget = self.w["dro_axis_{}".format(axis)]
-        widget.setProperty('homed', True)
-        widget.style().unpolish(widget)
-        widget.style().polish(widget)
+        try:
+            widget = self.w["dro_axis_{}".format(axis)]
+            widget.setProperty('homed', True)
+            widget.style().unpolish(widget)
+            widget.style().polish(widget)
+        except:
+            pass
 
     def all_homed(self, obj):
         self.home_all = True
@@ -418,10 +421,13 @@ class HandlerClass:
         for i in INFO.AVAILABLE_JOINTS:
             if str(i) in list:
                 axis = INFO.GET_NAME_FROM_JOINT.get(i).lower()
-                widget = self.w["dro_axis_{}".format(axis)]
-                widget.setProperty('homed', False)
-                widget.style().unpolish(widget)
-                widget.style().polish(widget)
+                try:
+                    widget = self.w["dro_axis_{}".format(axis)]
+                    widget.setProperty('homed', False)
+                    widget.style().unpolish(widget)
+                    widget.style().polish(widget)
+                except:
+                    pass
 
     def hard_limit_tripped(self, obj, tripped, list_of_tripped):
         self.add_status("Hard limits tripped")
