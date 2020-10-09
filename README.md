@@ -3,6 +3,8 @@ A QT5 based CNC graphical user interface built with the qtvcp framework for use 
 
 # Dependencies
 
-    LinuxCNC master (2.8~pre)
-    Python 2.7
-    PyQt5 or PySide2
+    LinuxCNC (2.8~pre) or master
+    Python 2.7 or Python 3
+    PyQt5
+      libqt5multimedia5-plugins
+      python-pyqt5.qtmultimedia
