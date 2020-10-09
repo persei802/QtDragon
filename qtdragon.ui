@@ -71,7 +71,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="ScreenOptions" name="screen_options">
+     <widget class="ScreenOptions" name="screen_options" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -237,7 +237,7 @@
                <enum>QFrame::Raised</enum>
               </property>
               <property name="currentIndex">
-               <number>0</number>
+               <number>3</number>
               </property>
               <widget class="QWidget" name="gcode_page">
                <property name="sizePolicy">
@@ -318,7 +318,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="GcodeEditor" name="gcode_viewer">
+                 <widget class="GcodeEditor" name="gcode_viewer" native="true">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                     <horstretch>0</horstretch>
@@ -373,7 +373,7 @@
                  <number>2</number>
                 </property>
                 <item>
-                 <widget class="FileManager" name="filemanager_usb"/>
+                 <widget class="FileManager" name="filemanager_usb" native="true"/>
                 </item>
                </layout>
               </widget>
@@ -1821,8 +1821,8 @@ SENSOR</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="LED" name="led_probe">
-                     <property name="color">
+                    <widget class="LED" name="led_probe" native="true">
+                     <property name="color" stdset="0">
                       <color>
                        <red>0</red>
                        <green>255</green>
@@ -2851,7 +2851,7 @@ RESET</string>
                     <enum>QFrame::Raised</enum>
                    </property>
                    <property name="currentIndex">
-                    <number>0</number>
+                    <number>9</number>
                    </property>
                    <widget class="QWidget" name="main_tab_widgetPage1">
                     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -3515,7 +3515,7 @@ RESET</string>
                       </widget>
                      </item>
                      <item>
-                      <widget class="GCodeGraphics" name="gcodegraphics">
+                      <widget class="GCodeGraphics" name="gcodegraphics" native="true">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                          <horstretch>0</horstretch>
@@ -3775,10 +3775,10 @@ GCODE</string>
                       </layout>
                      </item>
                      <item>
-                      <widget class="FileManager" name="filemanager"/>
+                      <widget class="FileManager" name="filemanager" native="true"/>
                      </item>
                      <item>
-                      <widget class="GcodeEditor" name="gcode_editor">
+                      <widget class="GcodeEditor" name="gcode_editor" native="true">
                        <property name="auto_show_mdi_status" stdset="0">
                         <bool>false</bool>
                        </property>
@@ -4362,14 +4362,11 @@ TO FILE</string>
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="BasicProbe" name="basicprobe">
-                       <property name="minimumSize">
-                        <size>
-                         <width>0</width>
-                         <height>0</height>
-                        </size>
+                      <layout class="QVBoxLayout" name="probe_layout">
+                       <property name="spacing">
+                        <number>4</number>
                        </property>
-                      </widget>
+                      </layout>
                      </item>
                     </layout>
                    </widget>
@@ -4399,7 +4396,7 @@ TO FILE</string>
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="CamView" name="camview"/>
+                        <widget class="CamView" name="camview" native="true"/>
                        </item>
                        <item>
                         <widget class="QWidget" name="widget_cam_controls" native="true">
@@ -11403,7 +11400,7 @@ ZERO</string>
               <number>0</number>
              </property>
              <item>
-              <widget class="VirtualKeyboard" name="virtualkeyboard"/>
+              <widget class="VirtualKeyboard" name="virtualkeyboard" native="true"/>
              </item>
             </layout>
            </widget>
@@ -12150,7 +12147,7 @@ ZERO</string>
                 </widget>
                </item>
                <item row="1" column="2" alignment="Qt::AlignHCenter">
-                <widget class="LED" name="led_at_speed">
+                <widget class="LED" name="led_at_speed" native="true">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -12172,10 +12169,10 @@ ZERO</string>
                  <property name="toolTip">
                   <string>Spindle at speed</string>
                  </property>
-                 <property name="diameter">
+                 <property name="diameter" stdset="0">
                   <number>12</number>
                  </property>
-                 <property name="color">
+                 <property name="color" stdset="0">
                   <color>
                    <red>0</red>
                    <green>255</green>
@@ -12245,7 +12242,7 @@ ZERO</string>
                   <string>0</string>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  <set>Qt::AlignCenter</set>
                  </property>
                  <property name="readOnly">
                   <bool>true</bool>
@@ -12500,213 +12497,159 @@ ZERO</string>
         </layout>
        </item>
        <item>
-        <widget class="QWidget" name="widget_status_bar" native="true">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>24</height>
-          </size>
+        <layout class="QHBoxLayout" name="status_layout">
+         <property name="spacing">
+          <number>8</number>
          </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>24</height>
-          </size>
+         <property name="topMargin">
+          <number>0</number>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_58">
-          <property name="spacing">
-           <number>8</number>
-          </property>
-          <property name="leftMargin">
-           <number>4</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>8</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QLineEdit" name="lineEdit_statusbar">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>400</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="placeholderText">
-             <string>STATUS</string>
-            </property>
-            <property name="clearButtonEnabled">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="StatusLabel" name="status_machine_state">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::WinPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Sunken</enum>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="machine_state_status" stdset="0">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_44">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>100</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>RUN TIME</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="lbl_runtime">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>120</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>00:00:00</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="StatusLabel" name="lbl_clock">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>120</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Sunken</enum>
-            </property>
-            <property name="lineWidth">
-             <number>2</number>
-            </property>
-            <property name="text">
-             <string>07:26:32 AM</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="textTemplate" stdset="0">
-             <string>%I:%M:%S %p</string>
-            </property>
-            <property name="feed_override_status" stdset="0">
-             <bool>false</bool>
-            </property>
-            <property name="time_stamp_status" stdset="0">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_statusbar">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>800</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="placeholderText">
+            <string>STATUS</string>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_44">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>36</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>RUN TIME</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lbl_runtime">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>36</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>00:00:00</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="StatusLabel" name="lbl_clock">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>36</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <property name="lineWidth">
+            <number>2</number>
+           </property>
+           <property name="text">
+            <string>01:59:23 PM</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="textTemplate" stdset="0">
+            <string>%I:%M:%S %p</string>
+           </property>
+           <property name="feed_override_status" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="time_stamp_status" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -12837,11 +12780,6 @@ ZERO</string>
    <class>FileManager</class>
    <extends>QWidget</extends>
    <header>qtvcp.widgets.file_manager</header>
-  </customwidget>
-  <customwidget>
-   <class>BasicProbe</class>
-   <extends>QWidget</extends>
-   <header>qtvcp.widgets.basic_probe</header>
   </customwidget>
   <customwidget>
    <class>SystemToolButton</class>
@@ -13159,8 +13097,8 @@ ZERO</string>
    <slot>btn_m61_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>85</x>
-     <y>55</y>
+     <x>299</x>
+     <y>444</y>
     </hint>
     <hint type="destinationlabel">
      <x>-3</x>
@@ -13175,8 +13113,8 @@ ZERO</string>
    <slot>btn_touchoff_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>85</x>
-     <y>55</y>
+     <x>397</x>
+     <y>444</y>
     </hint>
     <hint type="destinationlabel">
      <x>-2</x>
@@ -13223,8 +13161,8 @@ ZERO</string>
    <slot>btn_touchoff_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>167</x>
-     <y>85</y>
+     <x>85</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel">
      <x>322</x>
@@ -13272,7 +13210,7 @@ ZERO</string>
    <hints>
     <hint type="sourcelabel">
      <x>482</x>
-     <y>322</y>
+     <y>96</y>
     </hint>
     <hint type="destinationlabel">
      <x>454</x>
@@ -13352,7 +13290,7 @@ ZERO</string>
    <hints>
     <hint type="sourcelabel">
      <x>678</x>
-     <y>253</y>
+     <y>277</y>
     </hint>
     <hint type="destinationlabel">
      <x>645</x>
@@ -13431,8 +13369,8 @@ ZERO</string>
    <slot>cam_dia_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>521</x>
-     <y>174</y>
+     <x>1131</x>
+     <y>338</y>
     </hint>
     <hint type="destinationlabel">
      <x>1124</x>
@@ -13447,8 +13385,8 @@ ZERO</string>
    <slot>cam_rot_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>521</x>
-     <y>181</y>
+     <x>1131</x>
+     <y>491</y>
     </hint>
     <hint type="destinationlabel">
      <x>1156</x>
@@ -13463,8 +13401,8 @@ ZERO</string>
    <slot>cam_zoom_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>521</x>
-     <y>168</y>
+     <x>1131</x>
+     <y>186</y>
     </hint>
     <hint type="destinationlabel">
      <x>1105</x>
@@ -13479,8 +13417,8 @@ ZERO</string>
    <slot>percent_done_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>143</x>
-     <y>287</y>
+     <x>103</x>
+     <y>33</y>
     </hint>
     <hint type="destinationlabel">
      <x>-68</x>
@@ -13606,6 +13544,8 @@ ZERO</string>
   <slot>cam_rot_changed()</slot>
   <slot>percent_done_changed()</slot>
   <slot>percent_loaded_changed()</slot>
+  <slot>chk_use_basicprobe_changed()</slot>
+  <slot>chk_use_versaprobe_changed()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="page_buttonGroup"/>

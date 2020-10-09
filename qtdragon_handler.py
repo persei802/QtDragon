@@ -96,6 +96,7 @@ class HandlerClass:
         self.init_pins()
         self.init_preferences()
         self.init_widgets()
+        self.init_probe()
         self.w.stackedWidget_log.setCurrentIndex(0)
         self.w.stackedWidget.setCurrentIndex(0)
         self.w.stackedWidget_dro.setCurrentIndex(0)
@@ -236,6 +237,25 @@ class HandlerClass:
         self.web_page.setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
         self.web_view.setPage(self.web_page)
         self.w.layout_setup.addWidget(self.web_view)
+
+    def init_probe(self):
+        probe = INFO.get_error_safe_setting('PROBE', 'USE_PROBE', 'none').lower()
+        if probe == 'versaprobe':
+            LOG.info("Using Versa Probe")
+            from qtvcp.widgets.versa_probe import VersaProbe
+            self.probe = VersaProbe()
+            self.probe.setObjectName('versaprobe')
+        elif probe == 'basicprobe':
+            LOG.info("Using Basic Probe")
+            from qtvcp.widgets.basic_probe import BasicProbe
+            self.probe = BasicProbe()
+            self.probe.setObjectName('basicprobe')
+        else:
+            LOG.info("No valid probe widget specified")
+            self.w.btn_probe.hide()
+            return
+        self.w.probe_layout.addWidget(self.probe)
+        self.probe.hal_init()
 
     def processed_focus_event__(self, receiver, event):
         if not self.w.chk_use_virtual.isChecked() or STATUS.is_auto_mode(): return
@@ -804,11 +824,12 @@ class HandlerClass:
             if self.w.main_tab_widget.currentIndex() != TAB_SETUP:
                 self.w.jogging_frame.show()
         else:
-            self.w.jogging_frame.hide()
-            self.w.btn_main.setChecked(True)
-            self.w.main_tab_widget.setCurrentIndex(TAB_MAIN)
-            self.w.stackedWidget.setCurrentIndex(0)
-            self.w.stackedWidget_dro.setCurrentIndex(0)
+            if self.w.main_tab_widget.currentIndex() != TAB_PROBE:
+                self.w.jogging_frame.hide()
+                self.w.btn_main.setChecked(True)
+                self.w.main_tab_widget.setCurrentIndex(TAB_MAIN)
+                self.w.stackedWidget.setCurrentIndex(0)
+                self.w.stackedWidget_dro.setCurrentIndex(0)
 
     def enable_onoff(self, state):
         if state:
