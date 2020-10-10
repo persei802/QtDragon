@@ -45,6 +45,7 @@ class HandlerClass:
         KEYBIND.add_call('Key_Pause', 'on_keycall_pause')
                 
         # some global variables
+        self.probe = None
         self.default_setup = os.path.join(PATH.CONFIGPATH, "default_setup.html")
         self.start_line = 0
         self.run_time = 0
@@ -200,6 +201,8 @@ class HandlerClass:
         self.w.PREFS_.putpref('Use tool sensor', self.w.chk_use_tool_sensor.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
         self.w.PREFS_.putpref('Use camera', self.w.chk_use_camera.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
         self.w.PREFS_.putpref('Use alpha display mode', self.w.chk_alpha_mode.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
+        if self.probe:
+            self.probe.closing_cleanup__()
 
     def init_widgets(self):
         self.w.main_tab_widget.setCurrentIndex(TAB_MAIN)
