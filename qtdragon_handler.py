@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import os
 import hal
 import hal_glib
@@ -43,7 +44,7 @@ class HandlerClass:
         self.styleeditor = SSE(widgets, paths)
         KEYBIND.add_call('Key_F12','on_keycall_F12')
         KEYBIND.add_call('Key_Pause', 'on_keycall_pause')
-                
+
         # some global variables
         self.probe = None
         self.default_setup = os.path.join(PATH.CONFIGPATH, "default_setup.html")
@@ -54,9 +55,8 @@ class HandlerClass:
         self.home_all = False
         self.min_spindle_rpm = INFO.MIN_SPINDLE_SPEED
         self.max_spindle_rpm = INFO.MAX_SPINDLE_SPEED
-        self.max_linear_velocity = INFO.MAX_LINEAR_VELOCITY * 60
+        self.max_linear_velocity = INFO.MAX_TRAJ_VELOCITY
         self.system_list = ["G54","G55","G56","G57","G58","G59","G59.1","G59.2","G59.3"]
-        self.tab_index_code = (0, 1, 2, 3, 0, 0, 2, 0, 0, 0)
         self.slow_jog_factor = 10
         self.reload_tool = 0
         self.last_loaded_program = ""
@@ -64,8 +64,7 @@ class HandlerClass:
         self.lineedit_list = ["work_height", "touch_height", "sensor_height", "laser_x", "laser_y",
                               "sensor_x", "sensor_y", "camera_x", "camera_y",
                               "search_vel", "probe_vel", "max_probe", "eoffset_count"]
-        self.onoff_list = ["frame_program", "frame_tool", "frame_dro", "frame_override", "frame_status"]
-        self.auto_list = ["chk_eoffsets", "cmb_gcode_history"]
+        self.onoff_list = ["frame_program", "frame_tool", "frame_touchoff", "frame_dro", "frame_override", "frame_status"]
         self.axis_a_list = ["label_axis_a", "dro_axis_a", "action_zero_a", "axistoolbutton_a",
                             "action_home_a", "widget_jog_angular", "widget_increments_angular",
                             "a_plus_jogbutton", "a_minus_jogbutton"]
@@ -73,9 +72,9 @@ class HandlerClass:
         STATUS.connect('general', self.dialog_return)
         STATUS.connect('state-on', lambda w: self.enable_onoff(True))
         STATUS.connect('state-off', lambda w: self.enable_onoff(False))
-        STATUS.connect('mode-manual', lambda w: self.enable_auto(True))
-        STATUS.connect('mode-mdi', lambda w: self.enable_auto(True))
-        STATUS.connect('mode-auto', lambda w: self.enable_auto(False))
+        STATUS.connect('mode-manual', lambda w: self.enable_auto(False))
+        STATUS.connect('mode-mdi', lambda w: self.enable_auto(False))
+        STATUS.connect('mode-auto', lambda w: self.enable_auto(True))
         STATUS.connect('gcode-line-selected', lambda w, line: self.set_start_line(line))
         STATUS.connect('hard-limits-tripped', self.hard_limit_tripped)
         STATUS.connect('program-pause-changed', lambda w, state: self.w.btn_spindle_pause.setEnabled(state))
@@ -107,6 +106,8 @@ class HandlerClass:
         self.w.page_buttonGroup.buttonClicked.connect(self.main_tab_changed)
         self.w.filemanager.onUserClicked()    
         self.w.filemanager_usb.onMediaClicked()
+        self.chk_use_sensor_changed(self.w.chk_use_tool_sensor.isChecked())
+        self.chk_use_touchplate_changed(self.w.chk_use_touchplate.isChecked())
         self.chk_run_from_line_checked(self.w.chk_run_from_line.isChecked())
         self.chk_use_camera_changed(self.w.chk_use_camera.isChecked())
         self.chk_alpha_mode_clicked(self.w.chk_alpha_mode.isChecked())
@@ -171,6 +172,7 @@ class HandlerClass:
         self.w.chk_run_from_line.setChecked(self.w.PREFS_.getpref('Run from line', False, bool, 'CUSTOM_FORM_ENTRIES'))
         self.w.chk_use_virtual.setChecked(self.w.PREFS_.getpref('Use virtual keyboard', False, bool, 'CUSTOM_FORM_ENTRIES'))
         self.w.chk_use_tool_sensor.setChecked(self.w.PREFS_.getpref('Use tool sensor', False, bool, 'CUSTOM_FORM_ENTRIES'))
+        self.w.chk_use_touchplate.setChecked(self.w.PREFS_.getpref('Use tool touchplate', False, bool, 'CUSTOM_FORM_ENTRIES'))
         self.w.chk_use_camera.setChecked(self.w.PREFS_.getpref('Use camera', False, bool, 'CUSTOM_FORM_ENTRIES'))
         self.w.chk_alpha_mode.setChecked(self.w.PREFS_.getpref('Use alpha display mode', False, bool, 'CUSTOM_FORM_ENTRIES'))
         
@@ -199,6 +201,7 @@ class HandlerClass:
         self.w.PREFS_.putpref('Run from line', self.w.chk_run_from_line.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
         self.w.PREFS_.putpref('Use virtual keyboard', self.w.chk_use_virtual.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
         self.w.PREFS_.putpref('Use tool sensor', self.w.chk_use_tool_sensor.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
+        self.w.PREFS_.putpref('Use tool touchplate', self.w.chk_use_touchplate.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
         self.w.PREFS_.putpref('Use camera', self.w.chk_use_camera.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
         self.w.PREFS_.putpref('Use alpha display mode', self.w.chk_alpha_mode.isChecked(), bool, 'CUSTOM_FORM_ENTRIES')
         if self.probe:
@@ -206,7 +209,7 @@ class HandlerClass:
 
     def init_widgets(self):
         self.w.main_tab_widget.setCurrentIndex(TAB_MAIN)
-        self.w.slider_jog_linear.setMaximum(self.max_linear_velocity)
+        self.w.slider_jog_linear.setMaximum(INFO.MAX_LINEAR_JOG_VEL)
         self.w.slider_jog_linear.setValue(INFO.DEFAULT_LINEAR_JOG_VEL)
         self.w.slider_jog_angular.setMaximum(INFO.MAX_ANGULAR_JOG_VEL)
         self.w.slider_jog_angular.setValue(INFO.DEFAULT_ANGULAR_JOG_VEL)
@@ -267,8 +270,8 @@ class HandlerClass:
                 self.w.stackedWidget_dro.setCurrentIndex(1)
         elif isinstance(receiver, QtWidgets.QTableView):
             self.w.stackedWidget_dro.setCurrentIndex(1)
-#        elif isinstance(receiver, QtWidgets.QCommonStyle):
-#            return
+        elif isinstance(receiver, QtWidgets.QCommonStyle):
+            return
     
     def processed_key_event__(self,receiver,event,is_pressed,key,code,shift,cntrl):
         # when typing in MDI, we don't want keybinding to call functions
@@ -471,13 +474,16 @@ class HandlerClass:
         index = btn.property("index")
         if index is None: return
         self.w.main_tab_widget.setCurrentIndex(index)
-        self.w.stackedWidget.setCurrentIndex(self.tab_index_code[index])
-        if index == TAB_SETUP:
+        if index == TAB_SETUP or index == TAB_TOOL:
             self.w.jogging_frame.hide()
         else:
             self.w.jogging_frame.show()
-        if index == TAB_MAIN:
-            self.w.stackedWidget_dro.setCurrentIndex(0)
+        if index == TAB_FILE:
+            self.w.stackedWidget.setCurrentIndex(1)
+        elif index == TAB_OFFSETS:
+            self.w.stackedWidget.setCurrentIndex(2)
+        else:
+            self.w.stackedWidget.setCurrentIndex(0)
 
     # gcode frame
     def cmb_gcode_history_clicked(self):
@@ -732,6 +738,9 @@ class HandlerClass:
     def chk_use_sensor_changed(self, state):
         self.w.btn_touch_sensor.setEnabled(state)
 
+    def chk_use_touchplate_changed(self, state):
+        self.w.btn_touchplate.setEnabled(state)
+
     def chk_use_virtual_changed(self, state):
         if not state:
             self.w.stackedWidget_dro.setCurrentIndex(0)
@@ -817,22 +826,18 @@ class HandlerClass:
             ACTION.JOG(joint, 0, 0, 0)
 
     def add_status(self, message):
-        self.w.lineEdit_statusbar.setText(message)
+        self.w.statusbar.setText(message)
         STATUS.emit('update-machine-log', message, 'TIME')
 
     def enable_auto(self, state):
-        for widget in self.auto_list:
-            self.w[widget].setEnabled(state)
         if state is True:
-            if self.w.main_tab_widget.currentIndex() != TAB_SETUP:
-                self.w.jogging_frame.show()
+            self.w.jogging_frame.hide()
+            self.w.btn_main.setChecked(True)
+            self.w.main_tab_widget.setCurrentIndex(TAB_MAIN)
+            self.w.stackedWidget.setCurrentIndex(0)
+            self.w.stackedWidget_dro.setCurrentIndex(0)
         else:
-            if self.w.main_tab_widget.currentIndex() != TAB_PROBE:
-                self.w.jogging_frame.hide()
-                self.w.btn_main.setChecked(True)
-                self.w.main_tab_widget.setCurrentIndex(TAB_MAIN)
-                self.w.stackedWidget.setCurrentIndex(0)
-                self.w.stackedWidget_dro.setCurrentIndex(0)
+            self.w.jogging_frame.show()
 
     def enable_onoff(self, state):
         if state:
@@ -859,17 +864,14 @@ class HandlerClass:
             return False
 
     def update_rpm(self, speed):
-        if self.max_spindle_rpm < int(speed) < self.min_spindle_rpm:
-            print("Spindle out of range")
-            if STATUS.is_spindle_on():
-                print("Spindle is on")
-                self.w.lbl_spindle_set.setProperty('in_range', False)
-                self.w.lbl_spindle_set.style().unpolish(self.w.lbl_spindle_set)
-                self.w.lbl_spindle_set.style().polish(self.w.lbl_spindle_set)
+        if int(speed) == 0:
+            in_range = True
         else:
-            self.w.lbl_spindle_set.setProperty('in_range', True)
-            self.w.lbl_spindle_set.style().unpolish(self.w.lbl_spindle_set)
-            self.w.lbl_spindle_set.style().polish(self.w.lbl_spindle_set)
+            in_range = (self.min_spindle_rpm <= int(speed) <= self.max_spindle_rpm)
+        widget = self.w.lbl_spindle_set
+        widget.setProperty('in_range', in_range)
+        widget.style().unpolish(widget)
+        widget.style().polish(widget)
 
     def update_runtimer(self):
         if self.timer_on is False or STATUS.is_auto_paused(): return
