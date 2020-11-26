@@ -496,11 +496,11 @@ class HandlerClass:
 
     # program frame
     def btn_start_clicked(self, obj):
-        if self.w.main_tab_widget.currentIndex() != 0:
-            return
-        if not STATUS.is_auto_mode():
-            self.add_status("Must be in AUTO mode to run a program")
-            return
+#        if self.w.main_tab_widget.currentIndex() != 0:
+#            return
+#        if not STATUS.is_auto_mode():
+#            self.add_status("Must be in AUTO mode to run a program")
+#            return
         if STATUS.is_auto_running():
             self.add_status("Program is already running")
             return
@@ -826,7 +826,7 @@ class HandlerClass:
             ACTION.JOG(joint, 0, 0, 0)
 
     def add_status(self, message):
-        self.w.statusbar.setText(message)
+        self.w.lbl_statusbar.setText(message)
         STATUS.emit('update-machine-log', message, 'TIME')
 
     def enable_auto(self, state):
