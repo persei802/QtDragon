@@ -21,7 +21,7 @@ net spindle-cmd      near.0.in2
 net at_speed         near.0.out => and2.0.in1
 net forward          spindle.0.forward => and2.0.in0
 net at_speed_fwd     spindle.0.at-speed <= and2.0.out
-net at_speed_fwd     qtdragon.led_at_speed
+net at_speed_fwd     qtdragon.led_atspeed
 
 # external offset stuff
 net eoffset_enable   qtdragon.eoffset_enable => axis.z.eoffset-enable

@@ -34,6 +34,7 @@ TAB_CAMERA = 6
 TAB_GCODES = 7
 TAB_SETUP = 8
 TAB_SETTINGS = 9
+TAB_ACCESSORIES = 10
 
 class HandlerClass:
     def __init__(self, halcomp, widgets, paths):
@@ -97,6 +98,7 @@ class HandlerClass:
         self.init_preferences()
         self.init_widgets()
         self.init_probe()
+        self.init_utils()
         self.w.stackedWidget_log.setCurrentIndex(0)
         self.w.stackedWidget.setCurrentIndex(0)
         self.w.stackedWidget_dro.setCurrentIndex(0)
@@ -263,6 +265,17 @@ class HandlerClass:
         self.w.probe_layout.addWidget(self.probe)
         self.probe.hal_init()
 
+    def init_utils(self):
+        from facing import Facing
+        self.facing = Facing()
+        self.w.layout_facing.addWidget(self.facing)
+        from hole_circle import Hole_Circle
+        self.hole_circle = Hole_Circle()
+        self.w.layout_hole_circle.addWidget(self.hole_circle)
+        from calculator import Calculator
+        self.calculator = Calculator()
+        self.w.layout_calculator.addWidget(self.calculator)
+
     def processed_focus_event__(self, receiver, event):
         if not self.w.chk_use_virtual.isChecked() or STATUS.is_auto_mode(): return
         if isinstance(receiver, QtWidgets.QLineEdit):
@@ -344,11 +357,14 @@ class HandlerClass:
 
     def spindle_pwr_changed(self, data):
         # this calculation assumes the voltage is line to neutral
+        # that the current reported by the VFD is total current for all 3 phases
         # and that the synchronous motor spindle has a power factor of 0.9
-        power = self.h['spindle_volts'] * self.h['spindle_amps'] * 2.7 # 3 x V x I x PF
+        power = self.h['spindle_volts'] * self.h['spindle_amps'] * 0.9 # V x I x PF
         amps = "{:1.1f}".format(self.h['spindle_amps'])
+        volts = "{:1.1f}".format(self.h['spindle_volts'])
         pwr = "{:1.1f}".format(power)
         self.w.lbl_spindle_amps.setText(amps)
+        self.w.lbl_spindle_volts.setText(volts)
         self.w.lbl_spindle_power.setText(pwr)
 
     def spindle_fault_changed(self, data):
@@ -866,10 +882,16 @@ class HandlerClass:
     def update_rpm(self, speed):
         if int(speed) == 0:
             in_range = True
+            at_speed = True
         else:
             in_range = (self.min_spindle_rpm <= int(speed) <= self.max_spindle_rpm)
+            at_speed = self.h['led_atspeed']
         widget = self.w.lbl_spindle_set
         widget.setProperty('in_range', in_range)
+        widget.style().unpolish(widget)
+        widget.style().polish(widget)
+        widget = self.w.status_rpm
+        widget.setProperty('at_speed', at_speed)
         widget.style().unpolish(widget)
         widget.style().polish(widget)
 
