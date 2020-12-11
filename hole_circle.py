@@ -15,7 +15,6 @@ class Preview(QtWidgets.QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
-#        painter.begin(self)
         painter.setBrush(QColor(200, 200, 200, 255))
         painter.drawRect(event.rect())
         self.draw_main_circle(event, painter)
@@ -28,7 +27,7 @@ class Preview(QtWidgets.QWidget):
         w = size.width()
         h = size.height()
         center = QPoint(w/2, h/2)
-        diameter = min(w, h) -20
+        diameter = min(w, h) - 70
         qp.setPen(QPen(Qt.black, 1))
         qp.drawEllipse(center, diameter/2, diameter/2)
 
@@ -36,20 +35,31 @@ class Preview(QtWidgets.QWidget):
         size = self.size()
         w = size.width()
         h = size.height()
+        L = min(w, h) - 50
+        cx = int(w/2)
+        cy = int(h/2)
         qp.setPen(QPen(Qt.black, 1))
-        p1 = QPoint(int(w/2), 0)
-        p2 = QPoint(int(w/2), h)
-        p3 = QPoint(0, int(h/2))
-        p4 = QPoint(w, int(h/2))
-        qp.drawLine(p1, p2)
-        qp.drawLine(p3, p4)
+        p1 = QPoint(cx + L/2, cy)
+        p2 = QPoint(cx, cy - L/2)
+        p3 = QPoint(cx - L/2, cy)
+        p4 = QPoint(cx, cy + L/2)
+        qp.drawLine(p1, p3)
+        qp.drawLine(p2, p4)
+        br1 = QRect(cx + L/2, cy-6, 30, 12)
+        br2 = QRect(cx-15, cy - L/2 - 12, 30, 12)
+        br3 = QRect(cx - L/2 - 30, cy-6, 30, 12)
+        br4 = QRect(cx-15, cy + L/2, 30, 12)
+        qp.drawText(br1, Qt.AlignHCenter|Qt.AlignVCenter, "0")
+        qp.drawText(br2, Qt.AlignHCenter|Qt.AlignVCenter, "90")
+        qp.drawText(br3, Qt.AlignHCenter|Qt.AlignVCenter, "180")
+        qp.drawText(br4, Qt.AlignHCenter|Qt.AlignVCenter, "270")
 
     def draw_holes(self, event, qp):
         size = self.size()
         w = size.width()
         h = size.height()
         center = QPoint(w/2, h/2)
-        diameter = min(w, h) -20
+        diameter = min(w, h) - 70
         qp.setPen(QPen(Qt.black, 2))
         for i in range(self.num_holes):
             r = diameter/2
@@ -59,7 +69,7 @@ class Preview(QtWidgets.QWidget):
             x = round(x, 3)
             y = -round(y, 3) # need this to make it go CCW
             p = QPoint(x, y) + center
-            qp.drawEllipse(p, 8, 8)
+            qp.drawEllipse(p, 6, 6)
 
     def set_num_holes(self, num):
         self.num_holes = num

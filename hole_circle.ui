@@ -48,16 +48,16 @@
        <number>4</number>
       </property>
       <property name="leftMargin">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="rightMargin">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="bottomMargin">
-       <number>0</number>
+       <number>2</number>
       </property>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -65,6 +65,9 @@
          <number>4</number>
         </property>
         <property name="leftMargin">
+         <number>2</number>
+        </property>
+        <property name="topMargin">
          <number>2</number>
         </property>
         <property name="rightMargin">
@@ -1158,6 +1161,18 @@
         </property>
         <property name="sizeConstraint">
          <enum>QLayout::SetMaximumSize</enum>
+        </property>
+        <property name="leftMargin">
+         <number>2</number>
+        </property>
+        <property name="topMargin">
+         <number>2</number>
+        </property>
+        <property name="rightMargin">
+         <number>2</number>
+        </property>
+        <property name="bottomMargin">
+         <number>2</number>
         </property>
         <item>
          <widget class="QWidget" name="widget_macro" native="true">
