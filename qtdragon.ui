@@ -2235,7 +2235,7 @@ RESET</string>
                     <enum>QFrame::Raised</enum>
                    </property>
                    <property name="currentIndex">
-                    <number>9</number>
+                    <number>0</number>
                    </property>
                    <widget class="QWidget" name="main_tab_widgetPage1">
                     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -2690,6 +2690,15 @@ RESET</string>
                           <property name="checkable">
                            <bool>false</bool>
                           </property>
+                          <property name="autoRepeat">
+                           <bool>true</bool>
+                          </property>
+                          <property name="autoRepeatDelay">
+                           <number>500</number>
+                          </property>
+                          <property name="autoRepeatInterval">
+                           <number>300</number>
+                          </property>
                           <property name="view_change_action" stdset="0">
                            <bool>true</bool>
                           </property>
@@ -2768,6 +2777,15 @@ RESET</string>
                           </property>
                           <property name="checkable">
                            <bool>false</bool>
+                          </property>
+                          <property name="autoRepeat">
+                           <bool>true</bool>
+                          </property>
+                          <property name="autoRepeatDelay">
+                           <number>500</number>
+                          </property>
+                          <property name="autoRepeatInterval">
+                           <number>300</number>
                           </property>
                           <property name="view_change_action" stdset="0">
                            <bool>true</bool>
@@ -13105,7 +13123,7 @@ SPEED</string>
              <number>2</number>
             </property>
             <property name="text">
-             <string>06:35:53 PM</string>
+             <string>11:04:59 AM</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -13164,10 +13182,30 @@ SPEED</string>
  </widget>
  <customwidgets>
   <customwidget>
+   <class>ActionButton</class>
+   <extends>QPushButton</extends>
+   <header>qtvcp.widgets.action_button</header>
+  </customwidget>
+  <customwidget>
+   <class>CamView</class>
+   <extends>QWidget</extends>
+   <header>qtvcp.widgets.camview_widget</header>
+  </customwidget>
+  <customwidget>
    <class>GCodeGraphics</class>
    <extends>QWidget</extends>
    <header>qtvcp.widgets.gcode_graphics</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>JogIncrements</class>
+   <extends>QComboBox</extends>
+   <header>qtvcp.widgets.jog_increments</header>
+  </customwidget>
+  <customwidget>
+   <class>LED</class>
+   <extends>QWidget</extends>
+   <header>qtvcp.widgets.led_widget</header>
   </customwidget>
   <customwidget>
    <class>OriginOffsetView</class>
@@ -13197,16 +13235,6 @@ SPEED</string>
    <header>qtvcp.widgets.axis_tool_button</header>
   </customwidget>
   <customwidget>
-   <class>LED</class>
-   <extends>QWidget</extends>
-   <header>qtvcp.widgets.led_widget</header>
-  </customwidget>
-  <customwidget>
-   <class>JogIncrements</class>
-   <extends>QComboBox</extends>
-   <header>qtvcp.widgets.jog_increments</header>
-  </customwidget>
-  <customwidget>
    <class>ScreenOptions</class>
    <extends>QWidget</extends>
    <header>qtvcp.widgets.screen_options</header>
@@ -13221,11 +13249,6 @@ SPEED</string>
    <class>MachineLog</class>
    <extends>QTextEdit</extends>
    <header>qtvcp.widgets.machine_log</header>
-  </customwidget>
-  <customwidget>
-   <class>CamView</class>
-   <extends>QWidget</extends>
-   <header>qtvcp.widgets.camview_widget</header>
   </customwidget>
   <customwidget>
    <class>StatusLabel</class>
@@ -13264,11 +13287,6 @@ SPEED</string>
    <extends>QWidget</extends>
    <header>qtvcp.widgets.gcode_editor</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ActionButton</class>
-   <extends>QPushButton</extends>
-   <header>qtvcp.widgets.action_button</header>
   </customwidget>
  </customwidgets>
  <resources>
@@ -14038,7 +14056,7 @@ SPEED</string>
   <slot>chk_use_touchplate_changed()</slot>
  </slots>
  <buttongroups>
-  <buttongroup name="mode_buttonGroup"/>
   <buttongroup name="page_buttonGroup"/>
+  <buttongroup name="mode_buttonGroup"/>
  </buttongroups>
 </ui>
