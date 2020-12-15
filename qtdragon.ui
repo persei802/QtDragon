@@ -129,6 +129,9 @@
       <property name="originOffsetDialog_option" stdset="0">
        <bool>true</bool>
       </property>
+      <property name="calculatorDialog_option" stdset="0">
+       <bool>true</bool>
+      </property>
       <property name="machineLogDialog_option" stdset="0">
        <bool>true</bool>
       </property>
@@ -2235,7 +2238,7 @@ RESET</string>
                     <enum>QFrame::Raised</enum>
                    </property>
                    <property name="currentIndex">
-                    <number>0</number>
+                    <number>9</number>
                    </property>
                    <widget class="QWidget" name="main_tab_widgetPage1">
                     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -4347,6 +4350,13 @@ TO FILE</string>
                          </widget>
                         </item>
                         <item>
+                         <widget class="QLabel" name="label_41">
+                          <property name="text">
+                           <string>F4 - Calculator</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
                          <widget class="QLabel" name="label_35">
                           <property name="text">
                            <string>F12 - Style Sheet Editor</string>
@@ -5750,7 +5760,7 @@ CODE</string>
                         </sizepolicy>
                        </property>
                        <property name="currentIndex">
-                        <number>2</number>
+                        <number>1</number>
                        </property>
                        <widget class="QWidget" name="facing">
                         <attribute name="title">
@@ -5779,28 +5789,6 @@ CODE</string>
                          <string>HOLE CIRCLE</string>
                         </attribute>
                         <layout class="QVBoxLayout" name="layout_hole_circle">
-                         <property name="spacing">
-                          <number>0</number>
-                         </property>
-                         <property name="leftMargin">
-                          <number>0</number>
-                         </property>
-                         <property name="topMargin">
-                          <number>0</number>
-                         </property>
-                         <property name="rightMargin">
-                          <number>0</number>
-                         </property>
-                         <property name="bottomMargin">
-                          <number>0</number>
-                         </property>
-                        </layout>
-                       </widget>
-                       <widget class="QWidget" name="calculator">
-                        <attribute name="title">
-                         <string>CALCULATOR</string>
-                        </attribute>
-                        <layout class="QVBoxLayout" name="layout_calculator">
                          <property name="spacing">
                           <number>0</number>
                          </property>
@@ -13036,6 +13024,52 @@ SPEED</string>
               </layout>
              </widget>
             </item>
+            <item>
+             <widget class="StatusLabel" name="lbl_clock">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>120</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>120</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Sunken</enum>
+              </property>
+              <property name="lineWidth">
+               <number>2</number>
+              </property>
+              <property name="text">
+               <string>11:45:39 AM</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="textTemplate" stdset="0">
+               <string>%I:%M:%S %p</string>
+              </property>
+              <property name="feed_override_status" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="time_stamp_status" stdset="0">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
          </item>
@@ -13071,74 +13105,6 @@ SPEED</string>
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item>
-           <widget class="QLabel" name="lbl_statusbar">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="indent">
-             <number>8</number>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="StatusLabel" name="lbl_clock">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>120</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Sunken</enum>
-            </property>
-            <property name="lineWidth">
-             <number>2</number>
-            </property>
-            <property name="text">
-             <string>11:04:59 AM</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="textTemplate" stdset="0">
-             <string>%I:%M:%S %p</string>
-            </property>
-            <property name="feed_override_status" stdset="0">
-             <bool>false</bool>
-            </property>
-            <property name="time_stamp_status" stdset="0">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
        </item>
@@ -13146,6 +13112,23 @@ SPEED</string>
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="sizeGripEnabled">
+    <bool>false</bool>
+   </property>
   </widget>
   <action name="actionExit">
    <property name="text">

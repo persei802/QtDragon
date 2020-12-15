@@ -22,6 +22,7 @@ STATUS = Status()
 INFO = Info()
 ACTION = Action()
 PATH = Path()
+STYLEEDITOR = SSE()
 
 # constants for tab pages
 TAB_MAIN = 0
@@ -42,7 +43,7 @@ class HandlerClass:
         self.w = widgets
         self.gcodes = GCodes(widgets)
         self.valid = QtGui.QDoubleValidator(-999.999, 999.999, 3)
-        self.styleeditor = SSE(widgets, paths)
+        KEYBIND.add_call('Key_F4', 'on_keycall_F4')
         KEYBIND.add_call('Key_F12','on_keycall_F12')
         KEYBIND.add_call('Key_Pause', 'on_keycall_pause')
 
@@ -237,6 +238,8 @@ class HandlerClass:
         self.w.gcode_editor.hide()
         self.w.filemanager.list.setAlternatingRowColors(False)
         self.w.filemanager_usb.list.setAlternatingRowColors(False)
+        # move clock to statusbar
+        self.w.statusbar.addPermanentWidget(self.w.lbl_clock)
         #set up gcode list
         self.gcodes.setup_list()
         # set up web page viewer
@@ -272,9 +275,6 @@ class HandlerClass:
         from hole_circle import Hole_Circle
         self.hole_circle = Hole_Circle()
         self.w.layout_hole_circle.addWidget(self.hole_circle)
-        from calculator import Calculator
-        self.calculator = Calculator()
-        self.w.layout_calculator.addWidget(self.calculator)
 
     def processed_focus_event__(self, receiver, event):
         if not self.w.chk_use_virtual.isChecked() or STATUS.is_auto_mode(): return
@@ -512,11 +512,6 @@ class HandlerClass:
 
     # program frame
     def btn_start_clicked(self, obj):
-#        if self.w.main_tab_widget.currentIndex() != 0:
-#            return
-#        if not STATUS.is_auto_mode():
-#            self.add_status("Must be in AUTO mode to run a program")
-#            return
         if STATUS.is_auto_running():
             self.add_status("Program is already running")
             return
@@ -842,7 +837,7 @@ class HandlerClass:
             ACTION.JOG(joint, 0, 0, 0)
 
     def add_status(self, message):
-        self.w.lbl_statusbar.setText(message)
+        self.w.statusbar.showMessage(message)
         STATUS.emit('update-machine-log', message, 'TIME')
 
     def enable_auto(self, state):
@@ -909,7 +904,7 @@ class HandlerClass:
         self.timer_on = False
         if STATUS.is_auto_mode():
             self.add_status("Run timer stopped at {}".format(self.w.lbl_runtime.text()))
-
+        
     #####################
     # KEY BINDING CALLS #
     #####################
@@ -966,9 +961,14 @@ class HandlerClass:
         if self.use_keyboard():
             self.kb_jog(state, 3, -1, shift, False)
 
+    def on_keycall_F4(self,event,state,shift,cntrl):
+        if state:
+            mess = {'NAME':'CALCULATOR', 'TITLE':'Calculator', 'ID':'_calculator_'}
+            ACTION.CALL_DIALOG(mess)
+
     def on_keycall_F12(self,event,state,shift,cntrl):
         if state:
-            self.styleeditor.load_dialog()
+            STYLEEDITOR.load_dialog()
 
     ##############################
     # required class boiler code #
