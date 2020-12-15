@@ -358,28 +358,6 @@
                 </item>
                </layout>
               </widget>
-              <widget class="QWidget" name="file_page">
-               <layout class="QVBoxLayout" name="verticalLayout_2">
-                <property name="spacing">
-                 <number>2</number>
-                </property>
-                <property name="leftMargin">
-                 <number>2</number>
-                </property>
-                <property name="topMargin">
-                 <number>2</number>
-                </property>
-                <property name="rightMargin">
-                 <number>2</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>2</number>
-                </property>
-                <item>
-                 <widget class="FileManager" name="filemanager_usb"/>
-                </item>
-               </layout>
-              </widget>
               <widget class="QWidget" name="offset_page">
                <layout class="QVBoxLayout" name="verticalLayout_6">
                 <property name="spacing">
@@ -2238,7 +2216,7 @@ RESET</string>
                     <enum>QFrame::Raised</enum>
                    </property>
                    <property name="currentIndex">
-                    <number>9</number>
+                    <number>1</number>
                    </property>
                    <widget class="QWidget" name="main_tab_widgetPage1">
                     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -2986,201 +2964,197 @@ RESET</string>
                       <number>0</number>
                      </property>
                      <item>
-                      <layout class="QVBoxLayout" name="verticalLayout_5">
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <widget class="QWidget" name="widget_file_copy" native="true">
-                         <layout class="QVBoxLayout" name="verticalLayout_17">
-                          <property name="leftMargin">
-                           <number>0</number>
+                      <widget class="FileManager" name="filemanager_usb"/>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="widget_file_copy" native="true">
+                       <layout class="QVBoxLayout" name="verticalLayout_17">
+                        <property name="leftMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>0</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="btn_load_file">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
                           </property>
-                          <property name="topMargin">
-                           <number>0</number>
+                          <property name="minimumSize">
+                           <size>
+                            <width>80</width>
+                            <height>50</height>
+                           </size>
                           </property>
-                          <property name="rightMargin">
-                           <number>0</number>
+                          <property name="maximumSize">
+                           <size>
+                            <width>80</width>
+                            <height>50</height>
+                           </size>
                           </property>
-                          <property name="bottomMargin">
-                           <number>0</number>
+                          <property name="toolTip">
+                           <string>Load selected file</string>
                           </property>
-                          <item>
-                           <widget class="QPushButton" name="btn_load_file">
-                            <property name="sizePolicy">
-                             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                              <horstretch>0</horstretch>
-                              <verstretch>0</verstretch>
-                             </sizepolicy>
-                            </property>
-                            <property name="minimumSize">
-                             <size>
-                              <width>80</width>
-                              <height>50</height>
-                             </size>
-                            </property>
-                            <property name="maximumSize">
-                             <size>
-                              <width>80</width>
-                              <height>50</height>
-                             </size>
-                            </property>
-                            <property name="toolTip">
-                             <string>Load selected file</string>
-                            </property>
-                            <property name="text">
-                             <string>LOAD
+                          <property name="text">
+                           <string>LOAD
 FILE</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <spacer name="verticalSpacer_12">
-                            <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                            </property>
-                            <property name="sizeHint" stdset="0">
-                             <size>
-                              <width>20</width>
-                              <height>40</height>
-                             </size>
-                            </property>
-                           </spacer>
-                          </item>
-                          <item>
-                           <widget class="QPushButton" name="btn_copy_right">
-                            <property name="sizePolicy">
-                             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                              <horstretch>0</horstretch>
-                              <verstretch>0</verstretch>
-                             </sizepolicy>
-                            </property>
-                            <property name="minimumSize">
-                             <size>
-                              <width>80</width>
-                              <height>60</height>
-                             </size>
-                            </property>
-                            <property name="maximumSize">
-                             <size>
-                              <width>80</width>
-                              <height>60</height>
-                             </size>
-                            </property>
-                            <property name="toolTip">
-                             <string>Copy file from left to right</string>
-                            </property>
-                            <property name="text">
-                             <string/>
-                            </property>
-                            <property name="icon">
-                             <iconset>
-                              <normaloff>images/Right_arrow.png</normaloff>images/Right_arrow.png</iconset>
-                            </property>
-                            <property name="iconSize">
-                             <size>
-                              <width>60</width>
-                              <height>60</height>
-                             </size>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QPushButton" name="btn_copy_left">
-                            <property name="sizePolicy">
-                             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                              <horstretch>0</horstretch>
-                              <verstretch>0</verstretch>
-                             </sizepolicy>
-                            </property>
-                            <property name="minimumSize">
-                             <size>
-                              <width>80</width>
-                              <height>60</height>
-                             </size>
-                            </property>
-                            <property name="maximumSize">
-                             <size>
-                              <width>80</width>
-                              <height>60</height>
-                             </size>
-                            </property>
-                            <property name="toolTip">
-                             <string>Copy file from right to left</string>
-                            </property>
-                            <property name="text">
-                             <string/>
-                            </property>
-                            <property name="icon">
-                             <iconset>
-                              <normaloff>images/Left_arrow.png</normaloff>images/Left_arrow.png</iconset>
-                            </property>
-                            <property name="iconSize">
-                             <size>
-                              <width>60</width>
-                              <height>60</height>
-                             </size>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <spacer name="verticalSpacer_8">
-                            <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                            </property>
-                            <property name="sizeHint" stdset="0">
-                             <size>
-                              <width>20</width>
-                              <height>40</height>
-                             </size>
-                            </property>
-                           </spacer>
-                          </item>
-                         </layout>
-                        </widget>
-                       </item>
-                       <item alignment="Qt::AlignBottom">
-                        <widget class="PushButton" name="btn_gcode_edit">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="minimumSize">
-                          <size>
-                           <width>80</width>
-                           <height>50</height>
-                          </size>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>80</width>
-                           <height>50</height>
-                          </size>
-                         </property>
-                         <property name="toolTip">
-                          <string>Edit currently loaded gcode file</string>
-                         </property>
-                         <property name="text">
-                          <string>EDIT
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="verticalSpacer_12">
+                          <property name="orientation">
+                           <enum>Qt::Vertical</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>20</width>
+                            <height>40</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="btn_copy_right">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>80</width>
+                            <height>60</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>80</width>
+                            <height>60</height>
+                           </size>
+                          </property>
+                          <property name="toolTip">
+                           <string>Copy file from left to right</string>
+                          </property>
+                          <property name="text">
+                           <string/>
+                          </property>
+                          <property name="icon">
+                           <iconset>
+                            <normaloff>images/Right_arrow.png</normaloff>images/Right_arrow.png</iconset>
+                          </property>
+                          <property name="iconSize">
+                           <size>
+                            <width>60</width>
+                            <height>60</height>
+                           </size>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="btn_copy_left">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>80</width>
+                            <height>60</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>80</width>
+                            <height>60</height>
+                           </size>
+                          </property>
+                          <property name="toolTip">
+                           <string>Copy file from right to left</string>
+                          </property>
+                          <property name="text">
+                           <string/>
+                          </property>
+                          <property name="icon">
+                           <iconset>
+                            <normaloff>images/Left_arrow.png</normaloff>images/Left_arrow.png</iconset>
+                          </property>
+                          <property name="iconSize">
+                           <size>
+                            <width>60</width>
+                            <height>60</height>
+                           </size>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="verticalSpacer_8">
+                          <property name="orientation">
+                           <enum>Qt::Vertical</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>20</width>
+                            <height>40</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <widget class="PushButton" name="btn_gcode_edit">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>80</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>80</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="toolTip">
+                           <string>Edit currently loaded gcode file</string>
+                          </property>
+                          <property name="text">
+                           <string>EDIT
 GCODE</string>
-                         </property>
-                         <property name="checkable">
-                          <bool>true</bool>
-                         </property>
-                         <property name="python_command_option" stdset="0">
-                          <bool>false</bool>
-                         </property>
-                         <property name="true_python_cmd_string" stdset="0">
-                          <string/>
-                         </property>
-                         <property name="false_python_cmd_string" stdset="0">
-                          <string/>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
+                          </property>
+                          <property name="checkable">
+                           <bool>true</bool>
+                          </property>
+                          <property name="python_command_option" stdset="0">
+                           <bool>false</bool>
+                          </property>
+                          <property name="true_python_cmd_string" stdset="0">
+                           <string/>
+                          </property>
+                          <property name="false_python_cmd_string" stdset="0">
+                           <string/>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
                      </item>
                      <item>
                       <widget class="FileManager" name="filemanager"/>
@@ -13054,7 +13028,7 @@ SPEED</string>
                <number>2</number>
               </property>
               <property name="text">
-               <string>11:45:39 AM</string>
+               <string>04:20:41 PM</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -14039,7 +14013,7 @@ SPEED</string>
   <slot>chk_use_touchplate_changed()</slot>
  </slots>
  <buttongroups>
-  <buttongroup name="page_buttonGroup"/>
   <buttongroup name="mode_buttonGroup"/>
+  <buttongroup name="page_buttonGroup"/>
  </buttongroups>
 </ui>

@@ -490,14 +490,12 @@ class HandlerClass:
         index = btn.property("index")
         if index is None: return
         self.w.main_tab_widget.setCurrentIndex(index)
-        if index == TAB_SETUP or index == TAB_TOOL:
+        if index == TAB_SETUP or index == TAB_TOOL or index == TAB_FILE:
             self.w.jogging_frame.hide()
         else:
             self.w.jogging_frame.show()
-        if index == TAB_FILE:
+        if index == TAB_OFFSETS:
             self.w.stackedWidget.setCurrentIndex(1)
-        elif index == TAB_OFFSETS:
-            self.w.stackedWidget.setCurrentIndex(2)
         else:
             self.w.stackedWidget.setCurrentIndex(0)
 
@@ -772,7 +770,6 @@ class HandlerClass:
                 self.web_page.mainFrame().load(QtCore.QUrl.fromLocalFile(fname))
                 self.add_status("Loaded HTML file : {}".format(fname))
                 self.w.main_tab_widget.setCurrentIndex(TAB_SETUP)
-                self.w.stackedWidget.setCurrentIndex(0)
                 self.w.btn_setup.setChecked(True)
                 self.w.jogging_frame.hide()
             except Exception as e:
