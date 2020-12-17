@@ -142,6 +142,12 @@ StateLabel {
     color: #9ad58d;
 }
 
+StatusLabel#lbl_mcodes,
+StatusLabel#lbl_gcodes {
+    border: none;
+    background: transparent;
+}
+
 StatusLabel#lbl_clock {
     background: transparent;
     border: none;
@@ -153,7 +159,7 @@ StatusLabel#status_rpm {
     font: 20pt "Lato Heavy";
 }
 
-StatusLabel#status_rpm[at_speed=false],
+/*StatusLabel#status_rpm[at_speed=false],*/
 StatusLabel#lbl_spindle_set[in_range=false] {
     color: red;
 }
