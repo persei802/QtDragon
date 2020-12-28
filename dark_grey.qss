@@ -1,3 +1,5 @@
+/** dark_grey.qss **/
+
 QMainWindow {
     background: #404040;
 }
