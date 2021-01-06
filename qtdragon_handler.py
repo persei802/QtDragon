@@ -238,7 +238,11 @@ class HandlerClass:
         self.w.jogincrements_angular.wheelEvent = lambda event: None
         self.w.gcode_editor.hide()
         self.w.filemanager.list.setAlternatingRowColors(False)
+        self.w.filemanager.table.setAlternatingRowColors(False)
+        self.w.filemanager.table.setShowGrid(False)
         self.w.filemanager_usb.list.setAlternatingRowColors(False)
+        self.w.filemanager_usb.table.setAlternatingRowColors(False)
+        self.w.filemanager_usb.table.setShowGrid(False)
         # move clock to statusbar
         self.w.statusbar.addPermanentWidget(self.w.lbl_clock)
         #set up gcode list
