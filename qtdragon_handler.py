@@ -35,7 +35,7 @@ TAB_CAMERA = 6
 TAB_GCODES = 7
 TAB_SETUP = 8
 TAB_SETTINGS = 9
-TAB_ACCESSORIES = 10
+TAB_UTILS = 10
 
 class HandlerClass:
     def __init__(self, halcomp, widgets, paths):
@@ -63,6 +63,7 @@ class HandlerClass:
         self.reload_tool = 0
         self.last_loaded_program = ""
         self.first_turnon = True
+        self.unit_label_list = ["wp_height", "ts_height", "tp_height", "zoffset_units", "max_probe_units"]
         self.lineedit_list = ["work_height", "touch_height", "sensor_height", "laser_x", "laser_y",
                               "sensor_x", "sensor_y", "camera_x", "camera_y",
                               "search_vel", "probe_vel", "max_probe", "eoffset_count"]
@@ -82,7 +83,6 @@ class HandlerClass:
         STATUS.connect('program-pause-changed', lambda w, state: self.w.btn_spindle_pause.setEnabled(state))
         STATUS.connect('actual-spindle-speed-changed', lambda w, speed: self.update_rpm(speed))
         STATUS.connect('user-system-changed', lambda w, data: self.user_system_changed(data))
-        STATUS.connect('metric-mode-changed', lambda w, mode: self.metric_mode_changed(mode))
         STATUS.connect('file-loaded', self.file_loaded)
         STATUS.connect('homed', self.homed)
         STATUS.connect('all-homed', self.all_homed)
@@ -127,6 +127,13 @@ class HandlerClass:
             self.web_page.mainFrame().load(QtCore.QUrl.fromLocalFile(self.default_setup))
         except Exception as e:
             print("No default setup file found - {}".format(e))
+    # set unit labels according to machine mode
+        unit = "MM" if INFO.MACHINE_IS_METRIC else "IN"
+        for i in self.unit_label_list:
+            self.w['lbl_' + i].setText(unit)
+        unit = "MM/MIN" if INFO.MACHINE_IS_METRIC else "IN/MIN"
+        for i in ["search_vel_units", "probe_vel_units", "jog_linear"]:
+            self.w['lbl_' + i].setText(unit)
 
     #############################
     # SPECIAL FUNCTIONS SECTION #
@@ -237,12 +244,10 @@ class HandlerClass:
         self.w.jogincrements_linear.wheelEvent = lambda event: None
         self.w.jogincrements_angular.wheelEvent = lambda event: None
         self.w.gcode_editor.hide()
-        self.w.filemanager.list.setAlternatingRowColors(False)
-        self.w.filemanager.table.setAlternatingRowColors(False)
         self.w.filemanager.table.setShowGrid(False)
-        self.w.filemanager_usb.list.setAlternatingRowColors(False)
-        self.w.filemanager_usb.table.setAlternatingRowColors(False)
         self.w.filemanager_usb.table.setShowGrid(False)
+        self.w.tooloffsetview.setShowGrid(False)
+        self.w.offset_table.setShowGrid(False)
         # move clock to statusbar
         self.w.statusbar.addPermanentWidget(self.w.lbl_clock)
         #set up gcode list
@@ -401,15 +406,6 @@ class HandlerClass:
         self.w.offset_table.selectRow(int(data) + 3)
         self.w.actionbutton_rel.setText(sys)
 
-    def metric_mode_changed(self, mode):
-        if mode is False:
-            self.w.lbl_jog_linear.setText('JOG RATE\nIN/MIN')
-            maxvel = float(self.max_linear_velocity) / 25.4
-        else:
-            self.w.lbl_jog_linear.setText('JOG RATE\nMM/MIN')
-            maxvel = float(self.max_linear_velocity)
-        self.w.lbl_max_rapid.setText("{:4.0f}".format(maxvel))
-
     def file_loaded(self, obj, filename):
         if filename is not None:
             self.add_status("Loaded file {}".format(filename))
@@ -495,14 +491,19 @@ class HandlerClass:
         index = btn.property("index")
         if index is None: return
         self.w.main_tab_widget.setCurrentIndex(index)
-        if index == TAB_SETUP or index == TAB_FILE:
-            self.w.jogging_frame.hide()
-        else:
+        # Truth table for menu tabs
+        # Index     0 1 2 3 4 5 6 7 8 9 10
+        # --------------------------------
+        # Offsets   0 0 1 0 0 0 0 0 0 0 0
+        # Keyboard  0 x x x x x x x x x x
+        # Jogging   1 0 0 0 0 1 1 0 0 0 1
+        self.w.stackedWidget.setCurrentIndex(index == TAB_OFFSETS)
+        if index == TAB_MAIN:
+            self.w.stackedWidget_dro.setCurrentIndex(0)
+        if index == TAB_MAIN or index == TAB_PROBE or index == TAB_CAMERA or index == TAB_UTILS:
             self.w.jogging_frame.show()
-        if index == TAB_OFFSETS:
-            self.w.stackedWidget.setCurrentIndex(1)
         else:
-            self.w.stackedWidget.setCurrentIndex(0)
+            self.w.jogging_frame.hide()
 
     # gcode frame
     def cmb_gcode_history_clicked(self):

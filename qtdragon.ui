@@ -453,7 +453,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_47">
+                    <widget class="QLabel" name="lbl_wp_height">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                        <horstretch>0</horstretch>
@@ -567,7 +567,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_36">
+                    <widget class="QLabel" name="lbl_ts_height">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                        <horstretch>0</horstretch>
@@ -681,7 +681,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="lbl_touchheight_units">
+                    <widget class="QLabel" name="lbl_tp_height">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                        <horstretch>0</horstretch>
@@ -850,28 +850,6 @@
                      </property>
                     </widget>
                    </item>
-                   <item>
-                    <widget class="QLabel" name="label_70">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>40</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>40</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                    </widget>
-                   </item>
                   </layout>
                  </widget>
                 </item>
@@ -980,34 +958,6 @@
                      </property>
                      <property name="readOnly">
                       <bool>false</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_67">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>40</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>40</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>MM</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
                      </property>
                     </widget>
                    </item>
@@ -1122,34 +1072,6 @@
                      </property>
                     </widget>
                    </item>
-                   <item>
-                    <widget class="QLabel" name="label_68">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>40</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>40</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>MM</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
                   </layout>
                  </widget>
                 </item>
@@ -1249,34 +1171,6 @@
                      </property>
                      <property name="maxLength">
                       <number>8</number>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_69">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>40</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>40</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>MM</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignCenter</set>
@@ -2216,7 +2110,7 @@ RESET</string>
                     <enum>QFrame::Raised</enum>
                    </property>
                    <property name="currentIndex">
-                    <number>9</number>
+                    <number>3</number>
                    </property>
                    <widget class="QWidget" name="main_tab_widgetPage1">
                     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -3407,7 +3301,7 @@ ROTATION</string>
                     </layout>
                    </widget>
                    <widget class="QWidget" name="main_tab_widgetPage4">
-                    <layout class="QVBoxLayout" name="verticalLayout_2">
+                    <layout class="QHBoxLayout" name="horizontalLayout">
                      <property name="spacing">
                       <number>4</number>
                      </property>
@@ -3459,7 +3353,7 @@ ROTATION</string>
                      </item>
                      <item>
                       <widget class="QWidget" name="widget_tool_control" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout">
+                       <layout class="QVBoxLayout" name="verticalLayout_5">
                         <property name="spacing">
                          <number>6</number>
                         </property>
@@ -3476,71 +3370,6 @@ ROTATION</string>
                          <number>0</number>
                         </property>
                         <item>
-                         <widget class="QPushButton" name="btn_m61">
-                          <property name="sizePolicy">
-                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                           </sizepolicy>
-                          </property>
-                          <property name="minimumSize">
-                           <size>
-                            <width>80</width>
-                            <height>40</height>
-                           </size>
-                          </property>
-                          <property name="maximumSize">
-                           <size>
-                            <width>80</width>
-                            <height>40</height>
-                           </size>
-                          </property>
-                          <property name="toolTip">
-                           <string>Load selected tool</string>
-                          </property>
-                          <property name="text">
-                           <string>M61 Qn</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="PushButton" name="btn_tool_add">
-                          <property name="sizePolicy">
-                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                           </sizepolicy>
-                          </property>
-                          <property name="minimumSize">
-                           <size>
-                            <width>80</width>
-                            <height>40</height>
-                           </size>
-                          </property>
-                          <property name="maximumSize">
-                           <size>
-                            <width>80</width>
-                            <height>40</height>
-                           </size>
-                          </property>
-                          <property name="toolTip">
-                           <string>Add new tool to tooltable</string>
-                          </property>
-                          <property name="text">
-                           <string>ADD</string>
-                          </property>
-                          <property name="python_command_option" stdset="0">
-                           <bool>true</bool>
-                          </property>
-                          <property name="true_python_cmd_string" stdset="0">
-                           <string>INSTANCE.tooloffsetview.add_tool()</string>
-                          </property>
-                          <property name="false_python_cmd_string" stdset="0">
-                           <string/>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
                          <widget class="PushButton" name="btn_tool_delete">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -3551,13 +3380,13 @@ ROTATION</string>
                           <property name="minimumSize">
                            <size>
                             <width>80</width>
-                            <height>40</height>
+                            <height>50</height>
                            </size>
                           </property>
                           <property name="maximumSize">
                            <size>
                             <width>80</width>
-                            <height>40</height>
+                            <height>50</height>
                            </size>
                           </property>
                           <property name="toolTip">
@@ -3578,14 +3407,79 @@ ROTATION</string>
                          </widget>
                         </item>
                         <item>
-                         <spacer name="horizontalSpacer">
+                         <widget class="PushButton" name="btn_tool_add">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>80</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>80</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="toolTip">
+                           <string>Add new tool to tooltable</string>
+                          </property>
+                          <property name="text">
+                           <string>ADD</string>
+                          </property>
+                          <property name="python_command_option" stdset="0">
+                           <bool>true</bool>
+                          </property>
+                          <property name="true_python_cmd_string" stdset="0">
+                           <string>INSTANCE.tooloffsetview.add_tool()</string>
+                          </property>
+                          <property name="false_python_cmd_string" stdset="0">
+                           <string/>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="btn_m61">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>80</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>80</width>
+                            <height>50</height>
+                           </size>
+                          </property>
+                          <property name="toolTip">
+                           <string>Load selected tool</string>
+                          </property>
+                          <property name="text">
+                           <string>M61 Qn</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="verticalSpacer_4">
                           <property name="orientation">
-                           <enum>Qt::Horizontal</enum>
+                           <enum>Qt::Vertical</enum>
                           </property>
                           <property name="sizeHint" stdset="0">
                            <size>
-                            <width>40</width>
-                            <height>20</height>
+                            <width>20</width>
+                            <height>40</height>
                            </size>
                           </property>
                          </spacer>
@@ -5204,7 +5098,7 @@ TO FILE</string>
                             </widget>
                            </item>
                            <item>
-                            <widget class="QLabel" name="label_14">
+                            <widget class="QLabel" name="lbl_zoffset_units">
                              <property name="sizePolicy">
                               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                                <horstretch>0</horstretch>
@@ -12889,7 +12783,7 @@ SPEED</string>
                <number>2</number>
               </property>
               <property name="text">
-               <string>02:12:49 PM</string>
+               <string>01:12:15 PM</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -13874,7 +13768,7 @@ SPEED</string>
   <slot>chk_use_touchplate_changed()</slot>
  </slots>
  <buttongroups>
-  <buttongroup name="page_buttonGroup"/>
   <buttongroup name="mode_buttonGroup"/>
+  <buttongroup name="page_buttonGroup"/>
  </buttongroups>
 </ui>
