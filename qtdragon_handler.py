@@ -114,6 +114,7 @@ class HandlerClass:
         self.chk_run_from_line_checked(self.w.chk_run_from_line.isChecked())
         self.chk_use_camera_changed(self.w.chk_use_camera.isChecked())
         self.chk_alpha_mode_clicked(self.w.chk_alpha_mode.isChecked())
+        self.chk_use_virtual_changed(self.w.chk_use_virtual.isChecked())
     # hide widgets for A axis if not present
         if "A" not in INFO.AVAILABLE_AXES:
             for i in self.axis_a_list:
@@ -759,6 +760,9 @@ class HandlerClass:
         self.w.btn_touchplate.setEnabled(state)
 
     def chk_use_virtual_changed(self, state):
+        codestring = "CALCULATOR" if state else "ENTRY"
+        for i in ("x", "y", "z", "a"):
+            self.w["axistoolbutton_" + i].set_dialog_code(codestring)
         if not state:
             self.w.stackedWidget_dro.setCurrentIndex(0)
 
